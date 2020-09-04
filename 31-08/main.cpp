@@ -4,17 +4,17 @@
 #include <time.h>
 
 #define kNumThreads 4
-#define kWithParams true
-CRITICAL_SECTION CriticalSection;
+#define kWithParams false
 
+double acum = 0;
+
+clock_t start, end;
 struct piParams {
     int id = 0;
     double acum = 0;
 };
 
-double acum = 0;
-
-clock_t start, end;
+#if kWithParams
 
 DWORD WINAPI piFunc(LPVOID pArg) {
     piParams *params = reinterpret_cast<piParams *>(pArg);
@@ -38,6 +38,9 @@ DWORD WINAPI piFunc(LPVOID pArg) {
     return 0;
 }
 
+#else
+CRITICAL_SECTION CriticalSection;
+
 DWORD WINAPI piFuncMutex(LPVOID pArg) {
     int *id = reinterpret_cast<int *>(pArg);
 
@@ -46,20 +49,23 @@ DWORD WINAPI piFuncMutex(LPVOID pArg) {
     double baseIntervalo;
     double fdx;
     int64_t cantidadIntervalos = 1000000000;
+    double localAcum = 0;
     baseIntervalo = 1.0 / cantidadIntervalos;
 
     x = baseIntervalo * (cantidadIntervalos / kNumThreads) * *id;
 
     for (i = 0; i < cantidadIntervalos / kNumThreads; i++) {
         fdx = 4.0 / (1 + x * x);
-        EnterCriticalSection(&CriticalSection);
-        acum += (fdx * baseIntervalo);
-        LeaveCriticalSection(&CriticalSection);
+        localAcum += (fdx * baseIntervalo);
         x = x + baseIntervalo;
     }
+    EnterCriticalSection(&CriticalSection);
+    acum += localAcum;
+    LeaveCriticalSection(&CriticalSection);
 
     return 0;
 }
+#endif
 
 int main() {
     start = clock();
@@ -67,10 +73,13 @@ int main() {
     piParams y[kNumThreads];
     HANDLE hThread[kNumThreads];
 
-    if (!InitializeCriticalSectionAndSpinCount(&CriticalSection, 0x00000400)) return 1;
+#if !kWithParams
+    InitializeCriticalSection(&CriticalSection);
+#endif
 
     for (int i = 0; i < kNumThreads; i++) {
         y[i].id = i;
+
 #if kWithParams
         hThread[i] = CreateThread(NULL, 0, piFunc, &y[i], 0, NULL);
 #else
@@ -87,7 +96,11 @@ int main() {
 #endif
 
     end = clock();
+
+#if !kWithParams
     DeleteCriticalSection(&CriticalSection);
+#endif
+
 #if kWithParams
     printf("Resultado = %20.18lf \tcon parametros y con %d threads tomo: (%ld)ms\n", acum,
            kNumThreads, end - start);
