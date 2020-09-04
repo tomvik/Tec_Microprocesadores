@@ -4,7 +4,6 @@
 #include <time.h>
 
 #define kNumThreads 16
-#define kWithParams false
 
 double acum = 0;
 

@@ -10,7 +10,7 @@ double acum = 0;
 clock_t start, end;
 CRITICAL_SECTION CriticalSection;
 
-DWORD WINAPI piFuncMutex(LPVOID pArg) {
+DWORD WINAPI piFuncCriticalSection(LPVOID pArg) {
     int *id = reinterpret_cast<int *>(pArg);
 
     double x;
@@ -47,7 +47,7 @@ int main() {
     for (int i = 0; i < kNumThreads; i++) {
         y[i] = i;
 
-        hThread[i] = CreateThread(NULL, 0, piFuncMutex, &(y[i]), 0, NULL);
+        hThread[i] = CreateThread(NULL, 0, piFuncCriticalSection, &(y[i]), 0, NULL);
     }
 
     WaitForMultipleObjects(kNumThreads, hThread, TRUE, INFINITE);
