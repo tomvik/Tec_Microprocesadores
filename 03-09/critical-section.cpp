@@ -56,7 +56,7 @@ int main() {
 
     DeleteCriticalSection(&CriticalSection);
 
-    printf("Resultado = %20.18lf \tcon eventos y con %d threads tomo: (%ld)ms\n", acum, kNumThreads,
-           end - start);
+    printf("Resultado = %20.18lf \tcon critical section y con %d threads tomo: (%ld)ms\n", acum,
+           kNumThreads, end - start);
     return 0;
 }
