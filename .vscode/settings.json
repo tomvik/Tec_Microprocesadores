@@ -1,0 +1,70 @@
+{
+    "files.eol": "\r\n",
+    "files.associations": {
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "memory": "cpp",
+        "optional": "cpp",
+        "string_view": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "vector": "cpp",
+        "sstream": "cpp",
+        "streambuf": "cpp",
+        "tuple": "cpp",
+        "atomic": "cpp",
+        "cctype": "cpp",
+        "clocale": "cpp",
+        "cmath": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "deque": "cpp",
+        "exception": "cpp",
+        "algorithm": "cpp",
+        "memory_resource": "cpp",
+        "system_error": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "initializer_list": "cpp",
+        "iosfwd": "cpp",
+        "iostream": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "stdexcept": "cpp",
+        "typeinfo": "cpp",
+        "chrono": "cpp",
+        "condition_variable": "cpp",
+        "ctime": "cpp",
+        "ratio": "cpp",
+        "future": "cpp",
+        "mutex": "cpp",
+        "thread": "cpp"
+    },
+    // RoBorregos C++ Style.
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 100}",
+    // RoBorregos C++ Linter.
+    // windows:
+    "cpplint.cpplintPath": "C:\\Python27\\Scripts\\cpplint.exe",
+    // linux:
+    // "cpplint.cpplintPath": "/home/tomas/.local/lib/python2.7/site-packages/cpplint.py",
+    "cpplint.lineLength" : 100,
+    "cpplint.filters": [
+        "-legal"
+    ],
+
+    // Change this to the curren working folder inside workspace.
+    // Windows
+    "cmake.sourceDirectory": "${workspaceFolder}\\Hw2",
+    "cmake.buildDirectory": "${workspaceFolder}\\Hw2\\build"
+    // Linux
+    // "cmake.sourceDirectory": "${workspaceFolder}/07-09",
+    // "cmake.buildDirectory": "${workspaceFolder}/07-09/build"
+}

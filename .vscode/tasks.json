@@ -1,0 +1,67 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "shell: g++.exe build active file",
+            "windows": {
+                "command": "C:\\Program Files\\CodeBlocks\\MinGW\\bin\\g++.exe",
+                "args": [
+                    "-std=c++14",
+                    "-g",
+                    "${file}",
+                    "-o",
+                    "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                ],
+                "options": {
+                    "cwd": "C:\\Program Files\\CodeBlocks\\MinGW\\bin"
+                }
+            },
+            "linux": {
+                "command": "/usr/bin/g++",
+                "args": [
+                    "-std=c++14",
+                    "-g",
+                    "${file}",
+                    "-o",
+                    "${fileDirname}/${fileBasenameNoExtension}.exe"
+                ],
+                "options": {
+                    "cwd": "/usr/bin"
+                }
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "shell: execute active file",
+            "windows": {
+                "command": "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            },
+            "linux": {
+                "command": "${fileDirname}/${fileBasenameNoExtension}.exe"
+            },
+            "group": "test"
+        },
+        {
+            "type": "shell",
+            "label": "shell: execute cmake build file",
+            "windows": {
+                "command": "${fileDirname}\\build\\${fileBasenameNoExtension}.exe"
+            },
+            "linux": {
+                "command": "${fileDirname}/build/${fileBasenameNoExtension}.exe"
+            },
+            "group":{
+                "kind": "test",
+                "isDefault": true
+            }
+        }
+    ]
+}

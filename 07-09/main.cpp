@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-constexpr int kNumThreads = 32;
+constexpr int kNumThreads = 4;
 
 struct piParams {
     int id = 0;
@@ -30,6 +30,8 @@ void *singlePi(void *arg) {
     // printf("local acum: %lf\n", local_acum);
 
     params->acum = local_acum;
+
+    return NULL;
 }
 
 double calcPiParams() {
@@ -63,5 +65,5 @@ void calcPi() {
 
 int main() {
     calcPi();
-    exit(0);
+    return 0;
 }
