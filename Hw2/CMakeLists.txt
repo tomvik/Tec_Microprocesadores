@@ -4,7 +4,8 @@ project(mainProject VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-set(SOURCES ArgumentsCheck.cpp ArgumentsCheck.h)
+set(SOURCES ArgumentsCheck.cpp ArgumentsCheck.h
+            Timer.cpp Timer.h)
 
 add_executable(MatrixAddition MatrixAddition.cpp ${SOURCES})
 

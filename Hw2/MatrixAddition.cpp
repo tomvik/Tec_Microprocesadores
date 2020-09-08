@@ -1,14 +1,13 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 #include <cctype>
-#include <chrono>
 #include <future>
 #include <vector>
 
 #include "ArgumentsCheck.h"
+#include "Timer.h"
 
 bool verifyResult(const std::vector<std::vector<int>>& C, const int dimension) {
     for (int row = 0; row < dimension; ++row) {
@@ -33,6 +32,7 @@ void createMatrices(std::vector<std::vector<int>>* A, std::vector<std::vector<in
 
 void simpleAdd(std::vector<std::vector<int>>* C, const std::vector<std::vector<int>>& A,
                const std::vector<std::vector<int>>& B, const int dimension) {
+    Timer::Timer timer("simpleAdd");
     for (int row = 0; row < dimension; ++row) {
         for (int col = 0; col < dimension; ++col) {
             (*C)[row][col] = A[row][col] + B[row][col];
@@ -58,18 +58,13 @@ int main(int argc, char** argv) {
     std::vector<std::vector<int>> A(dimension, std::vector<int>(dimension, 0));
     std::vector<std::vector<int>> B(dimension, std::vector<int>(dimension, 0));
     std::vector<std::vector<int>> C(dimension, std::vector<int>(dimension, 0));
-    time_t start, end;
 
     createMatrices(&A, &B, &C, dimension);
 
-    start = clock();
-
     simpleAdd(&C, A, B, dimension);
 
-    end = clock();
-
     if (verifyResult(C, dimension)) {
-        printf("Results verified!!! (%ld)\n", (int64_t)(end - start));
+        printf("Results verified!!!\n");
     } else {
         printf("Wrong results!!!\n");
     }
