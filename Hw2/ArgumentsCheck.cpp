@@ -24,7 +24,7 @@ void printOkMessage(const int dimension, const int num_threads) {
 }
 
 void printHelpMessage(char** argv) {
-    std::cerr << "Usage: " << argv[0] << " {<option>} or {<DIMENSION> <THREADS>}"
+    std::cerr << "Usage: " << argv[0] << " {<option>} or {<DIMENSION> <THREADS>}\n"
               << "Option:\n"
               << "\t-h,--help\t\tShow this help message\n"
               << "DIMENSION:\n"
