@@ -1,3 +1,4 @@
+#include <pthread.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -107,9 +108,9 @@ void multiAddVector(std::vector<std::vector<int>>* C, const std::vector<std::vec
     const int step = dimension / num_threads;
 
     for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back(std::thread(addRowsVector, (C->begin() + (i * step)),
-                                         (A.begin() + (i * step)), (B.begin() + (i * step)),
-                                         i * step, (i + 1) * step));
+        threads.emplace_back(std::thread(
+            addRowsVector, (C->begin() + (i * step)), (A.begin() + (i * step)),
+            (B.begin() + (i * step)), i * step, i == num_threads - 1 ? dimension : (i + 1) * step));
     }
 
     for (auto& thread : threads) {
@@ -134,11 +135,55 @@ void multiAddPointer(const int dimension, const int num_threads) {
     const int step = dimension / num_threads;
 
     for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back(std::thread(addRowsPointer, i * step, (i + 1) * step, dimension));
+        threads.emplace_back(std::thread(addRowsPointer, i * step,
+                                         i == num_threads - 1 ? dimension : (i + 1) * step,
+                                         dimension));
     }
 
     for (auto& thread : threads) {
         thread.join();
+    }
+}
+
+struct pThreadStruct {
+    int initial;
+    int limit;
+    int dimension;
+};
+
+void* addRowsPThread(void* arg) {
+    pThreadStruct* params = (pThreadStruct*)arg;
+    const int dimension = params->dimension;
+    const int initial = params->initial;
+    const int limit = params->limit;
+
+    for (int row = initial; row < limit; ++row) {
+        for (int col = 0; col < dimension; ++col) {
+            *(C + row * dimension + col) =
+                *(A + row * dimension + col) + *(B + row * dimension + col);
+        }
+    }
+
+    return NULL;
+}
+
+void multiAddPointerPThread(const int dimension, const int kNumThreads) {
+    Timer::Timer timer("multiAddPointerPThread");
+
+    const int step = dimension / kNumThreads;
+
+    pThreadStruct params[kNumThreads];
+    pthread_t pthreadID[kNumThreads];
+
+    for (int i = 0; i < kNumThreads; ++i) {
+        params[i].dimension = dimension;
+        params[i].initial = i * step;
+        params[i].limit = i == kNumThreads - 1 ? dimension : (i + 1) * step;
+        pthread_create(&(pthreadID[i]), NULL, addRowsPThread, &(params[i]));
+    }
+
+    for (int i = 0; i < kNumThreads; ++i) {
+        pthread_join(pthreadID[i], NULL);
     }
 }
 
@@ -169,7 +214,8 @@ void threadAddPointer(const int dimension, const int num_threads) {
     createMatricesPointer(A, B, C, dimension);
 
     // simpleAddPointer(C, A, B, dimension);
-    multiAddPointer(dimension, num_threads);
+    // multiAddPointer(dimension, num_threads);
+    multiAddPointerPThread(dimension, num_threads);
 
     if (verifyResultPointer(C, dimension)) {
         printf("Results verified!!!\n");
@@ -197,8 +243,8 @@ int main(int argc, char** argv) {
             break;
     }
 
-    // threadAddVector(dimension, num_threads);
-    threadAddPointer(dimension, num_threads);
+    threadAddVector(dimension, num_threads);
+    // threadAddPointer(dimension, num_threads);
 
     return 0;
 }
