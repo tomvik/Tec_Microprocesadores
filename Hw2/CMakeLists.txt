@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(mainProject VERSION 0.1.0)
 
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall")
+
 include(CTest)
 enable_testing()
 
-find_package( Threads )
+find_package( Threads REQUIRED )
 set(SOURCES ArgumentsCheck.cpp ArgumentsCheck.h
             Timer.cpp Timer.h)
 

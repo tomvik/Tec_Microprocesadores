@@ -73,7 +73,7 @@ void countThrees() {
 
 int main() {
     size_t datasize = sizeof(int) * kLength;
-    numbers = (int *)malloc(datasize);
+    numbers = reinterpret_cast<int *>(malloc(datasize));
 
     for (int i = 0; i < kLength; ++i) {
         numbers[i] = 0;
