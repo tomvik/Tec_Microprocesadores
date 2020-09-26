@@ -6,8 +6,11 @@
 
 constexpr int kDefaultElements = 52428800;
 constexpr int kDefaultRuns = 1;
-constexpr bool kDefaultType = true;
+constexpr int kDefaultType = 0;
 constexpr int kAlignedBytes = 64;
+constexpr int kAmountTypes = 3;
+
+const char* const types[] = {"Unoptimized", "Vectorized with SSE", "Vectorized with AVX"};
 
 void initializeData(float* A, float* B, const int elements) {
     for (int i = 0; i < elements; i++) {
@@ -65,27 +68,45 @@ int64_t vectorizedSSEAddition(float* A, float* B, float* C, const int elements) 
     return static_cast<int64_t>(end - start);
 }
 
-void runArrayAddition(const int elements, const int elements_to_print, const bool normal_sum) {
+void runArrayAddition(const int elements, const int elements_to_print, const int sum_type) {
     float* A = nullptr;
     float* B = nullptr;
     float* C = nullptr;
 
     // Array creation
     const size_t datasize = sizeof(float) * elements;
-    if (normal_sum) {
-        A = reinterpret_cast<float*>(malloc(datasize));
-        B = reinterpret_cast<float*>(malloc(datasize));
-        C = reinterpret_cast<float*>(malloc(datasize));
-    } else {
-        A = reinterpret_cast<float*>(_mm_malloc(datasize, kAlignedBytes));
-        B = reinterpret_cast<float*>(_mm_malloc(datasize, kAlignedBytes));
-        C = reinterpret_cast<float*>(_mm_malloc(datasize, kAlignedBytes));
+
+    switch (sum_type) {
+        case 0:
+            A = reinterpret_cast<float*>(malloc(datasize));
+            B = reinterpret_cast<float*>(malloc(datasize));
+            C = reinterpret_cast<float*>(malloc(datasize));
+            break;
+        case 1:
+        case 2:
+            A = reinterpret_cast<float*>(_mm_malloc(datasize, kAlignedBytes));
+            B = reinterpret_cast<float*>(_mm_malloc(datasize, kAlignedBytes));
+            C = reinterpret_cast<float*>(_mm_malloc(datasize, kAlignedBytes));
+            break;
+        default:
+            break;
     }
 
     initializeData(A, B, elements);
 
-    const int64_t total_time =
-        normal_sum ? normalAddition(A, B, C, elements) : vectorizedSSEAddition(A, B, C, elements);
+    int64_t total_time = -1;
+
+    switch (sum_type) {
+        case 0:
+            total_time = normalAddition(A, B, C, elements);
+            break;
+        case 1:
+        case 2:
+           total_time = vectorizedSSEAddition(A, B, C, elements);
+            break;
+        default:
+            break;
+    }
 
     printFirstN(C, elements_to_print);
 
@@ -96,20 +117,25 @@ void runArrayAddition(const int elements, const int elements_to_print, const boo
     }
 
     // Memory deallocation
-    if (normal_sum) {
-        free(A);
-        free(B);
-        free(C);
-    } else {
-        _mm_free(A);
-        _mm_free(B);
-        _mm_free(C);
+    switch (sum_type) {
+        case 0:
+            free(A);
+            free(B);
+            free(C);
+            break;
+        case 1:
+        case 2:
+            _mm_free(A);
+            _mm_free(B);
+            _mm_free(C);
+            break;
+        default:
+            break;
     }
 }
 
 int main() {
-    int options = -1, elements = kDefaultElements, runs = kDefaultRuns;
-    bool type = kDefaultType;
+    int options = -1, elements = kDefaultElements, runs = kDefaultRuns, type = kDefaultType;
     // Dumb UI, but works.
     printf(
         "Hello! Welcome to the super duper complex quantum program that adds two arrays. Enjoy "
@@ -119,9 +145,9 @@ int main() {
         printf("The code will run with the following setting:\n");
         printf(
             "*\tElements per array: %d,\n"
-            "*\tExecute %s code,\n"
+            "*\tExecute: %s code,\n"
             "*\tTotal runs: %d\n\n",
-            elements, type ? "unoptimized" : "vectorized", runs);
+            elements, types[type], runs);
 
         printf("If you want to customize something, select your option:\n");
         printf(
@@ -138,7 +164,15 @@ int main() {
             case 0:
                 break;
             case 1:
-                type = !type;
+                type = -1;
+                while (type < 0 || type >= kAmountTypes) {
+                    printf("Select the type you wish to run:\n");
+                    for (int i = 0; i < kAmountTypes; ++i) {
+                        printf("*\tEnter %d for '%s'\n", i, types[i]);
+                    }
+                    printf("Type: ");
+                    scanf("%d", &type);
+                }
                 break;
             case 2:
                 printf("Select the amount of elements per array: ");
@@ -162,9 +196,9 @@ int main() {
     printf("\n\nRunning the code with the following settings:\n");
     printf(
         "*\tElements per array: %d,\n"
-        "*\tExecute %s code,\n"
+        "*\tExecute: %s code,\n"
         "*\tTotal runs: %d\n\n",
-        elements, type ? "unoptimized" : "vectorized", runs);
+        elements, types[type], runs);
 
     for (int i = 0; i < runs; ++i) {
         runArrayAddition(elements, 0, type);
