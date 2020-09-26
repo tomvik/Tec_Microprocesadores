@@ -63,7 +63,8 @@ void runArrayAddition(const int elements, const int elements_to_print, const boo
 
     initializeData(A, B, elements);
 
-    const int64_t total_time = normal_sum ? normalAddition(A, B, C, elements) : vectorizedAddition(A, B, C, elements);
+    const int64_t total_time =
+        normal_sum ? normalAddition(A, B, C, elements) : vectorizedAddition(A, B, C, elements);
 
     printFirstN(C, elements_to_print);
 
@@ -102,33 +103,33 @@ int main() {
             "*\tEnter 2 to change the amount of elements in the array.\n"
             "*\tEnter 3 to change the amount of times the code will run.\n"
             "*\tEnter 4 to fall back to default values.\n");
-            printf("Select your option: ");
-            scanf("%d", &options);
-            printf("\n");
+        printf("Select your option: ");
+        scanf("%d", &options);
+        printf("\n");
 
-            switch (options) {
-                case 0:
-                    break;
-                case 1:
-                    type = !type;
-                    break;
-                case 2:
-                    printf("Select the amount of elements per array: ");
-                    scanf("%d", &elements);
-                    break;
-                case 3:
-                    printf("Select the amount of total runs: ");
-                    scanf("%d", &runs);
-                    break;
-                case 4:
-                    elements = kDefaultElements;
-                    runs = kDefaultRuns;
-                    type = kDefaultType;
-                    break;
-                default:
-                    printf("[WARNING] Wrong number of option. Try again.\n");
-                    break;
-            }
+        switch (options) {
+            case 0:
+                break;
+            case 1:
+                type = !type;
+                break;
+            case 2:
+                printf("Select the amount of elements per array: ");
+                scanf("%d", &elements);
+                break;
+            case 3:
+                printf("Select the amount of total runs: ");
+                scanf("%d", &runs);
+                break;
+            case 4:
+                elements = kDefaultElements;
+                runs = kDefaultRuns;
+                type = kDefaultType;
+                break;
+            default:
+                printf("[WARNING] Wrong number of option. Try again.\n");
+                break;
+        }
     }
 
     printf("\n\nRunning the code with the following settings:\n");
