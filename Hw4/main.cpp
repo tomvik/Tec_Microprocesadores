@@ -1,3 +1,4 @@
+#include <immintrin.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +7,7 @@
 constexpr int kDefaultElements = 52428800;
 constexpr int kDefaultRuns = 1;
 constexpr bool kDefaultType = true;
+constexpr int kAlignedBytes = 64;
 
 void initializeData(float* A, float* B, const int elements) {
     for (int i = 0; i < elements; i++) {
@@ -30,6 +32,7 @@ void printFirstN(float* C, const int elements_to_print) {
 }
 
 int64_t normalAddition(float* A, float* B, float* C, const int elements) {
+    printf("NormalSum\n\n");
     int i;
     time_t start, end;
     start = clock();
@@ -39,32 +42,50 @@ int64_t normalAddition(float* A, float* B, float* C, const int elements) {
     return static_cast<int64_t>(end - start);
 }
 
-int64_t vectorizedAddition(float* A, float* B, float* C, const int elements) {
+int64_t vectorizedSSEAddition(float* A, float* B, float* C, const int elements) {
+    printf("VectorSum\n\n");
     int i;
+    const int step = 4;
     time_t start, end;
+    __m128 a, b, c;
     start = clock();
-    // This loop can be optimized using Intrinsics
-    for (i = 0; i < elements; i++) C[i] = A[i] + B[i];
+
+    __builtin_assume_aligned(A, kAlignedBytes);
+    __builtin_assume_aligned(B, kAlignedBytes);
+    __builtin_assume_aligned(C, kAlignedBytes);
+    for (i = 0; i < elements / 4; ++i) {
+        a = _mm_load_ps(A + i * 4);
+        b = _mm_load_ps(B + i * 4);
+
+        c = _mm_add_ps(a, b);
+        _mm_store_ps(C + i * 4, c);
+    }
     end = clock();
 
     return static_cast<int64_t>(end - start);
 }
 
 void runArrayAddition(const int elements, const int elements_to_print, const bool normal_sum) {
-    int i;
-    float* A = NULL;
-    float* B = NULL;
-    float* C = NULL;
+    float* A = nullptr;
+    float* B = nullptr;
+    float* C = nullptr;
+
     // Array creation
-    size_t datasize = sizeof(float) * elements;
-    A = reinterpret_cast<float*>(malloc(datasize));
-    B = reinterpret_cast<float*>(malloc(datasize));
-    C = reinterpret_cast<float*>(malloc(datasize));
+    const size_t datasize = sizeof(float) * elements;
+    if (normal_sum) {
+        A = reinterpret_cast<float*>(malloc(datasize));
+        B = reinterpret_cast<float*>(malloc(datasize));
+        C = reinterpret_cast<float*>(malloc(datasize));
+    } else {
+        A = reinterpret_cast<float*>(_mm_malloc(datasize, kAlignedBytes));
+        B = reinterpret_cast<float*>(_mm_malloc(datasize, kAlignedBytes));
+        C = reinterpret_cast<float*>(_mm_malloc(datasize, kAlignedBytes));
+    }
 
     initializeData(A, B, elements);
 
     const int64_t total_time =
-        normal_sum ? normalAddition(A, B, C, elements) : vectorizedAddition(A, B, C, elements);
+        normal_sum ? normalAddition(A, B, C, elements) : vectorizedSSEAddition(A, B, C, elements);
 
     printFirstN(C, elements_to_print);
 
@@ -75,9 +96,15 @@ void runArrayAddition(const int elements, const int elements_to_print, const boo
     }
 
     // Memory deallocation
-    free(A);
-    free(B);
-    free(C);
+    if (normal_sum) {
+        free(A);
+        free(B);
+        free(C);
+    } else {
+        _mm_free(A);
+        _mm_free(B);
+        _mm_free(C);
+    }
 }
 
 int main() {
@@ -94,7 +121,7 @@ int main() {
             "*\tElements per array: %d,\n"
             "*\tExecute %s code,\n"
             "*\tTotal runs: %d\n\n",
-            elements, type ? "vectorized" : "unoptimized", runs);
+            elements, type ? "unoptimized" : "vectorized", runs);
 
         printf("If you want to customize something, select your option:\n");
         printf(
@@ -137,7 +164,7 @@ int main() {
         "*\tElements per array: %d,\n"
         "*\tExecute %s code,\n"
         "*\tTotal runs: %d\n\n",
-        elements, type ? "vectorized" : "unoptimized", runs);
+        elements, type ? "unoptimized" : "vectorized", runs);
 
     for (int i = 0; i < runs; ++i) {
         runArrayAddition(elements, 0, type);
