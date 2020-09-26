@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-constexpr int kDefaultElements = 52428800;
+constexpr int kDefaultElements = 104857600;
 constexpr int kDefaultRuns = 1;
 constexpr int kDefaultType = 0;
 constexpr int kAlignedBytes = 64;
