@@ -1,10 +1,15 @@
+// Code made by Tomas Alejandro Lugo Salinas
+// for the Hw4 of the lecture of Multiprocessors.
+// Compiled with: g++ -mavx -std=c++14 -g main.cpp -o main.exe
+// Executed as: main.exe
+
 #include <immintrin.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-constexpr int kDefaultElements = 104857600;
+constexpr int kDefaultElements = 104857600/2;
 constexpr int kDefaultRuns = 1;
 constexpr int kDefaultType = 0;
 constexpr int kAlignedBytes = 64;
