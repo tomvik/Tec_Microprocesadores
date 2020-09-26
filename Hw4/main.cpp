@@ -46,22 +46,41 @@ int64_t normalAddition(float* A, float* B, float* C, const int elements) {
 }
 
 int64_t vectorizedSSEAddition(float* A, float* B, float* C, const int elements) {
-    printf("VectorSum\n\n");
+    printf("vectorizedSSEAddition\n\n");
     int i;
     const int step = 4;
     time_t start, end;
     __m128 a, b, c;
     start = clock();
 
-    __builtin_assume_aligned(A, kAlignedBytes);
-    __builtin_assume_aligned(B, kAlignedBytes);
-    __builtin_assume_aligned(C, kAlignedBytes);
+#pragma vector aligned
     for (i = 0; i < elements / 4; ++i) {
         a = _mm_load_ps(A + i * 4);
         b = _mm_load_ps(B + i * 4);
 
         c = _mm_add_ps(a, b);
         _mm_store_ps(C + i * 4, c);
+    }
+    end = clock();
+
+    return static_cast<int64_t>(end - start);
+}
+
+int64_t vectorizedAVXAddition(float* A, float* B, float* C, const int elements) {
+    printf("vectorizedAVXAddition\n\n");
+    int i;
+    const int step = 4;
+    time_t start, end;
+    __m256 a, b, c;
+    start = clock();
+
+#pragma vector aligned
+    for (i = 0; i < elements / 8; ++i) {
+        a = _mm256_load_ps(A + i * 8);
+        b = _mm256_load_ps(B + i * 8);
+
+        c = _mm256_add_ps(a, b);
+        _mm256_store_ps(C + i * 8, c);
     }
     end = clock();
 
@@ -101,8 +120,10 @@ void runArrayAddition(const int elements, const int elements_to_print, const int
             total_time = normalAddition(A, B, C, elements);
             break;
         case 1:
+            total_time = vectorizedSSEAddition(A, B, C, elements);
+            break;
         case 2:
-           total_time = vectorizedSSEAddition(A, B, C, elements);
+            total_time = vectorizedAVXAddition(A, B, C, elements);
             break;
         default:
             break;
