@@ -22,6 +22,7 @@
                 "command": "/usr/bin/g++",
                 "args": [
                     "-std=c++14",
+                    "-fopenmp",
                     "-g",
                     "${file}",
                     "-o",
@@ -48,7 +49,10 @@
             "linux": {
                 "command": "${fileDirname}/${fileBasenameNoExtension}.exe"
             },
-            "group": "test"
+            "group":{
+                "kind": "test",
+                "isDefault": true
+            }
         },
         {
             "type": "shell",
@@ -59,10 +63,7 @@
             "linux": {
                 "command": "${fileDirname}/build/${fileBasenameNoExtension}.exe"
             },
-            "group":{
-                "kind": "test",
-                "isDefault": true
-            }
+            "group": "test",
         }
     ]
 }

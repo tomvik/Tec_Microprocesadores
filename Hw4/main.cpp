@@ -59,12 +59,12 @@ int64_t vectorizedSSEAddition(float* A, float* B, float* C, const int elements) 
     start = clock();
 
 #pragma vector aligned
-    for (i = 0; i < elements / 4; ++i) {
-        a = _mm_load_ps(A + i * 4);
-        b = _mm_load_ps(B + i * 4);
+    for (i = 0; i < elements; i += 4) {
+        a = _mm_load_ps(A + i);
+        b = _mm_load_ps(B + i);
 
         c = _mm_add_ps(a, b);
-        _mm_store_ps(C + i * 4, c);
+        _mm_store_ps(C + i, c);
     }
     end = clock();
 
@@ -80,12 +80,12 @@ int64_t vectorizedAVXAddition(float* A, float* B, float* C, const int elements) 
     start = clock();
 
 #pragma vector aligned
-    for (i = 0; i < elements / 8; ++i) {
-        a = _mm256_load_ps(A + i * 8);
-        b = _mm256_load_ps(B + i * 8);
+    for (i = 0; i < elements; i += 8) {
+        a = _mm256_load_ps(A + i);
+        b = _mm256_load_ps(B + i);
 
         c = _mm256_add_ps(a, b);
-        _mm256_store_ps(C + i * 8, c);
+        _mm256_store_ps(C + i, c);
     }
     end = clock();
 
