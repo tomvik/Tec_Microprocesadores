@@ -8,6 +8,7 @@
                 "command": "C:\\Program Files\\CodeBlocks\\MinGW\\bin\\g++.exe",
                 "args": [
                     "-mavx",
+                    "-fopenmp",
                     "-std=c++14",
                     "-g",
                     "${file}",
