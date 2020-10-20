@@ -11,7 +11,7 @@
 //   mkdir build && cd build
 //   cmake ..
 //   cmake --build .
-// Executed as: main
+// Executed as: ./main
 // NOTE: If compilation fails, this link was extremely useful to verify the compiler:
 // https://stackoverflow.com/questions/35869564/cmake-on-windows
 
