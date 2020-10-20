@@ -5,12 +5,13 @@
 //   mkdir build && cd build
 //   cmake .. -G"MinGW Makefiles"
 //   cmake --build .
+// Executed as: main.exe
 // And in Linux as follows:
 //   cd Hw6
 //   mkdir build && cd build
 //   cmake ..
 //   cmake --build .
-// Executed as: main.exe
+// Executed as: main
 // NOTE: If compilation fails, this link was extremely useful to verify the compiler:
 // https://stackoverflow.com/questions/35869564/cmake-on-windows
 
