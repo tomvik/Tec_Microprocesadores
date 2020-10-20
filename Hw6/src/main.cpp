@@ -20,10 +20,10 @@
 
 constexpr int kArraySize = 16;
 
-void Sequencial(const float A[kArraySize], const float B[kArraySize], float C[kArraySize],
+void Sequential(const float A[kArraySize], const float B[kArraySize], float C[kArraySize],
                 float D[kArraySize], float E[kArraySize], float F[kArraySize]) {
-    printf("\n\n Method Sequencial:\n");
-    Timer::Timer timer("Sequencial");
+    printf("\n\n Method Sequential:\n");
+    Timer::Timer timer("Sequential");
     for (int i = 0; i < kArraySize; ++i) {
         C[i] = A[i] + B[i];
         D[i] = A[i] - B[i];
@@ -209,7 +209,7 @@ int main() {
         B[i] = 1 + i;
     }
 
-    Sequencial(A, B, C, D, E, F);
+    Sequential(A, B, C, D, E, F);
 
     for (int i = 0; i < kArraySize; ++i) {
         C[i] = 0;
