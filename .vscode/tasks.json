@@ -36,6 +36,32 @@
             "problemMatcher": [
                 "$gcc"
             ],
+            "group": "build"
+        },
+        {
+            "label": "cmake files",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-BHw6\\build",
+                "-SHw6",
+                "-G\"MinGW Makefiles\""
+            ],
+            "problemMatcher": [],
+        },
+        {
+            "label": "cmake build",
+            "type": "shell",
+            "command": "cd Hw6\\build && cmake --build .",
+            "args": [
+                "-j8",
+            ],
+            "problemMatcher": [],
+        },
+        {
+            "label": "Build Cmake",
+            "dependsOrder": "sequence",
+            "dependsOn": ["cmake files", "cmake build"],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -50,21 +76,21 @@
             "linux": {
                 "command": "${fileDirname}/${fileBasenameNoExtension}.exe"
             },
-            "group":{
-                "kind": "test",
-                "isDefault": true
-            }
+            "group": "test"
         },
         {
             "type": "shell",
             "label": "shell: execute cmake build file",
             "windows": {
-                "command": "${fileDirname}\\build\\${fileBasenameNoExtension}.exe"
+                "command": "${fileDirname}\\..\\build\\${fileBasenameNoExtension}.exe"
             },
             "linux": {
-                "command": "${fileDirname}/build/${fileBasenameNoExtension}.exe"
+                "command": "${fileDirname}/../build/${fileBasenameNoExtension}.exe"
             },
-            "group": "test",
+            "group":{
+                "kind": "test",
+                "isDefault": true
+            }
         }
     ]
 }

@@ -62,8 +62,8 @@
 
     // Change this to the curren working folder inside workspace.
     // Windows
-    "cmake.sourceDirectory": "${workspaceFolder}\\Hw2",
-    "cmake.buildDirectory": "${workspaceFolder}\\Hw2\\build"
+    // "cmake.sourceDirectory": "${workspaceFolder}\\Hw6",
+    // "cmake.buildDirectory": "${workspaceFolder}\\Hw6\\build"
     // Linux
     // "cmake.sourceDirectory": "${workspaceFolder}/07-09",
     // "cmake.buildDirectory": "${workspaceFolder}/07-09/build"
