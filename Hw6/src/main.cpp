@@ -20,8 +20,9 @@
 
 constexpr int kArraySize = 16;
 
-void sequencial(const float A[kArraySize], const float B[kArraySize], float C[kArraySize],
+void Sequencial(const float A[kArraySize], const float B[kArraySize], float C[kArraySize],
                 float D[kArraySize], float E[kArraySize], float F[kArraySize]) {
+    printf("\n\n Method Sequencial:\n");
     Timer::Timer timer("Sequencial");
     for (int i = 0; i < kArraySize; ++i) {
         C[i] = A[i] + B[i];
@@ -54,6 +55,7 @@ void sequencial(const float A[kArraySize], const float B[kArraySize], float C[kA
 
 void OmpSectionsAndSingle(const float A[kArraySize], const float B[kArraySize], float C[kArraySize],
                           float D[kArraySize], float E[kArraySize], float F[kArraySize]) {
+    printf("\n\n Method OmpSectionsAndSingle:\n");
     Timer::Timer timer("OmpSectionsAndSingle");
 #pragma omp parallel num_threads(4) shared(A, B, C, D, E, F)
     {
@@ -126,6 +128,7 @@ void OmpSectionsAndSingle(const float A[kArraySize], const float B[kArraySize], 
 void OmpSectionsAndCritical(const float A[kArraySize], const float B[kArraySize],
                             float C[kArraySize], float D[kArraySize], float E[kArraySize],
                             float F[kArraySize]) {
+    printf("\n\n Method OmpSectionsAndCritical:\n");
     Timer::Timer timer("OmpSectionsAndCritical");
 #pragma omp parallel num_threads(4) shared(A, B, C, D, E, F)
     {
@@ -206,7 +209,7 @@ int main() {
         B[i] = 1 + i;
     }
 
-    sequencial(A, B, C, D, E, F);
+    Sequencial(A, B, C, D, E, F);
 
     for (int i = 0; i < kArraySize; ++i) {
         C[i] = 0;
