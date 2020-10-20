@@ -6,7 +6,7 @@
 //   cmake .. -G"MinGW Makefiles"
 //   cmake --build .
 // Executed as: main.exe
-// NOTE: If compilation fails, this link was extremely useful:
+// NOTE: If compilation fails, this link was extremely useful to verify the compiler:
 // https://stackoverflow.com/questions/35869564/cmake-on-windows
 
 #include <Timer/Timer.h>
