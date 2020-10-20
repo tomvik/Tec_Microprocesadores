@@ -1,9 +1,14 @@
 // Code made by Tomas Alejandro Lugo Salinas
 // for the Hw6 of the lecture of Multiprocessors.
-// Compiled with Cmake as follows:
+// Compiled with Cmake in Windows as follows:
 //   cd Hw6
 //   mkdir build && cd build
 //   cmake .. -G"MinGW Makefiles"
+//   cmake --build .
+// And in Linux as follows:
+//   cd Hw6
+//   mkdir build && cd build
+//   cmake ..
 //   cmake --build .
 // Executed as: main.exe
 // NOTE: If compilation fails, this link was extremely useful to verify the compiler:
@@ -14,7 +19,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 
 #include <iostream>
 
