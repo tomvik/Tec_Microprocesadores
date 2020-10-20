@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <windows.h>
 
 #include <iostream>
 
@@ -29,6 +29,7 @@ void sequencial(const float A[kArraySize], const float B[kArraySize], float C[kA
         E[i] = A[i] * B[i];
         F[i] = A[i] / B[i];
     }
+    /*
     printf("C= ");
     for (int i = 0; i < kArraySize; ++i) {
         printf("%.2f ", C[i]);
@@ -49,48 +50,49 @@ void sequencial(const float A[kArraySize], const float B[kArraySize], float C[kA
         printf("%.2f ", F[i]);
     }
     printf("\n");
+    */
 }
 
 void OMP_Sections(const float A[kArraySize], const float B[kArraySize], float C[kArraySize],
                   float D[kArraySize], float E[kArraySize], float F[kArraySize]) {
     Timer::Timer timer("OMP_Sections");
-    int i = 0;
-#pragma omp parallel num_threads(4) shared(C, D, E, F) private(i)  // nowait
+#pragma omp parallel num_threads(4) shared(A, B, C, D, E, F)
     {
 #pragma omp sections nowait
         {
 #pragma omp section
             {
-                printf("C thread: %d\n", omp_get_thread_num());
-                for (i = 0; i < kArraySize; ++i) {
+                // printf("C thread: %d\n", omp_get_thread_num());
+                for (int i = 0; i < kArraySize; ++i) {
                     C[i] = A[i] + B[i];
                 }
             }  // End section.
 #pragma omp section
             {
-                printf("D thread: %d\n", omp_get_thread_num());
-                for (i = 0; i < kArraySize; ++i) {
+                // printf("D thread: %d\n", omp_get_thread_num());
+                for (int i = 0; i < kArraySize; ++i) {
                     D[i] = A[i] - B[i];
                 }
             }  // End section.
 #pragma omp section
             {
-                printf("E thread: %d\n", omp_get_thread_num());
-                for (i = 0; i < kArraySize; ++i) {
+                // printf("E thread: %d\n", omp_get_thread_num());
+                for (int i = 0; i < kArraySize; ++i) {
                     E[i] = A[i] * B[i];
                 }
             }  // End section.
 #pragma omp section
             {
-                printf("F thread: %d\n", omp_get_thread_num());
-                for (i = 0; i < kArraySize; ++i) {
+                // printf("F thread: %d\n", omp_get_thread_num());
+                for (int i = 0; i < kArraySize; ++i) {
                     F[i] = A[i] / B[i];
                 }
             }  // End section.
-        }      // End sections
+        }      // End sections.
 
-    }  // End Parallel
+    }  // End Parallel.
 
+    /*
     printf("C= ");
     for (i = 0; i < kArraySize; ++i) {
         printf("%.2f ", C[i]);
@@ -111,6 +113,7 @@ void OMP_Sections(const float A[kArraySize], const float B[kArraySize], float C[
         printf("%.2f ", F[i]);
     }
     printf("\n");
+    */
 }
 
 int main() {
