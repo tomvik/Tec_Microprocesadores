@@ -1,3 +1,8 @@
 *.exe
 build
 *.rar
+
+
+
+*.exp
+*.lib
