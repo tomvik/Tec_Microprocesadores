@@ -43,8 +43,8 @@
             "type": "shell",
             "command": "cmake",
             "args": [
-                "-BHw6\\build",
-                "-SHw6",
+                "-B22-10\\build",
+                "-S22-10",
                 "-G\"MinGW Makefiles\""
             ],
             "problemMatcher": [],
@@ -52,7 +52,7 @@
         {
             "label": "cmake build",
             "type": "shell",
-            "command": "cd Hw6\\build && cmake --build .",
+            "command": "cd 22-10\\build && cmake --build .",
             "args": [
                 "-j8",
             ],
