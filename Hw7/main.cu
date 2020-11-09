@@ -163,8 +163,8 @@ void gpuPiWithoutReduction(const long cantidad_intervalos, const int num_blocks,
 }
 
 int main() {
-    //originalPi(kCantidadIntervalos, 1);
-    //gpuPiWithReduction(kCantidadIntervalos, 16, 1024, 1);
-    gpuPiWithoutReduction(kCantidadIntervalos, 16, 1024, 1);
+    originalPi(kCantidadIntervalos, 5);
+    gpuPiWithReduction(kCantidadIntervalos, 16, 1024, 5);
+    gpuPiWithoutReduction(kCantidadIntervalos, 16, 1024, 5);
     return 0;
 }
