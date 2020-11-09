@@ -1,10 +1,11 @@
 // Code made by Tomas Alejandro Lugo Salinas
 // for the Hw7 of the lecture of Multiprocessors.
-// Compiled in Windows 10 with: nvcc main.cu -o main.exe 
+// Compiled in Windows 10 with: nvcc -Xcompiler "/openmp" main.cu -o main.exe
 // Executed in Windows 10 as: main.exe
 
 #include <stdio.h>
 #include <time.h>
+#include <omp.h>
 
 const long kCantidadIntervalos = 1000000000;
 
@@ -162,9 +163,45 @@ void gpuPiWithoutReduction(const long cantidad_intervalos, const int num_blocks,
     printf("** The average of %d runs was: %ld **\n\n", times, total_time / times);
 }
 
+void gpuPiWithOMPReduction(const long cantidad_intervalos, const int num_blocks, const int num_threads, const int times = 1) {
+    printf("** Running the gpu code with OMP reduction %d times **\n", times);
+    printf("* # of blocks: %d\n", num_blocks);
+    printf("* # of threads: %d\n", num_threads);
+    long total_time = 0;
+    clock_t start, end;
+    for(int iteration = 0; iteration < times; ++iteration) {
+        start = clock();
+
+        const int total_size = num_blocks * num_threads;
+
+        double *acum_arr = nullptr;
+
+        cudaMallocManaged(&acum_arr, sizeof(double) * total_size);
+        
+        singleGPUPi<<<num_blocks, num_threads>>>(cantidad_intervalos, total_size, num_threads, acum_arr);
+
+        cudaDeviceSynchronize();
+        
+        double final_acum = 0;
+
+        #pragma omp parallel for reduction(+:final_acum)
+        for(int i = 0; i < total_size; ++i) {
+            final_acum += acum_arr[i];
+        }
+
+        cudaFree(acum_arr);
+
+        end = clock();
+        total_time += (end - start);
+        printf("Result = %20.18lf (%ld)\n", final_acum, end - start);
+    }
+    printf("** The average of %d runs was: %ld **\n\n", times, total_time / times);
+}
+
 int main() {
-    originalPi(kCantidadIntervalos, 5);
-    gpuPiWithReduction(kCantidadIntervalos, 16, 1024, 5);
-    gpuPiWithoutReduction(kCantidadIntervalos, 16, 1024, 5);
+    //originalPi(kCantidadIntervalos, 5);
+    gpuPiWithReduction(kCantidadIntervalos, 32, 1024, 5);
+    gpuPiWithoutReduction(kCantidadIntervalos, 32, 1024, 5);
+    gpuPiWithOMPReduction(kCantidadIntervalos, 32, 1024, 5);
     return 0;
 }
