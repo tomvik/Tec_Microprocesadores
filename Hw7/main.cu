@@ -199,9 +199,9 @@ void gpuPiWithOMPReduction(const long cantidad_intervalos, const int num_blocks,
 }
 
 int main() {
-    //originalPi(kCantidadIntervalos, 5);
-    gpuPiWithReduction(kCantidadIntervalos, 32, 1024, 5);
-    gpuPiWithoutReduction(kCantidadIntervalos, 32, 1024, 5);
-    gpuPiWithOMPReduction(kCantidadIntervalos, 32, 1024, 5);
+    originalPi(kCantidadIntervalos, 5);
+    gpuPiWithReduction(kCantidadIntervalos, 16, 1024, 5);
+    gpuPiWithoutReduction(kCantidadIntervalos, 16, 1024, 5);
+    gpuPiWithOMPReduction(kCantidadIntervalos, 16, 1024, 5);
     return 0;
 }
