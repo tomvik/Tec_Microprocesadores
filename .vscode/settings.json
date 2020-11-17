@@ -61,7 +61,11 @@
         "xstddef": "cpp",
         "xstring": "cpp",
         "xtr1common": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "resumable": "cpp",
+        "functional": "cpp",
+        "list": "cpp",
+        "xhash": "cpp"
     },
     // RoBorregos C++ Style.
     "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, AccessModifierOffset: -3, ColumnLimit: 100}",

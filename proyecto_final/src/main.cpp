@@ -24,21 +24,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <fstream>
 #include <iostream>
+#include <vector>
 
 int main(int argc, char** argv) {
     ScopeTimer::ScopeTimer timer("Main function");
-    
-    const auto argument_case = ArgumentsCheck::handleArguments(argc, argv);
+
+    std::vector<std::ifstream> input_files(2);
+
+    const auto argument_case =
+        ArgumentsCheck::handleArgumentsAndGetFileHandles(argc, argv, &input_files);
     switch (argument_case) {
         case ArgumentsCheck::ArgumentsCase::kHelp:
-            std::cout << "kHelp" << std::endl;
             return 0;
         case ArgumentsCheck::ArgumentsCase::kWrongArguments:
-            std::cout << "kWrongArguments" << std::endl;
             return 1;
+        case ArgumentsCheck::ArgumentsCase::kWrongPathOrFile:
+            return 2;
         case ArgumentsCheck::ArgumentsCase::kOk:
-            std::cout << "kOk" << std::endl;
         default:
             break;
     }

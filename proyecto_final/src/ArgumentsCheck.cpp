@@ -1,70 +1,66 @@
 #include <ArgumentsCheck/ArgumentsCheck.h>
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
 
 namespace {
 
-constexpr int kDimArg = 1;
-constexpr int kThreadArg = 2;
-
-bool isNotDigit(const unsigned char c) { return !std::isdigit(c); }
-
-bool isPositiveNumber(const std::string& s) {
-    return std::find_if(s.begin(), s.end(), isNotDigit) == s.end();
-}
-
-void printOkMessage(const int dimension, const int num_threads) {
-    printf("The dimensions are: %dx%d, and the amount of threads is: %d\n", dimension, dimension,
-           num_threads);
-}
+void printOkMessage() { std::cout << "The two files were opened successfully\n"; }
 
 void printHelpMessage(char** argv) {
-    std::cerr << "Usages: " << argv[0] << " {<option>} or {<DIMENSION> <THREADS>}\n"
+    std::cerr << "Usages: " << argv[0] << " {<option>} or {<MatrixA> <MatrixB>}\n"
               << "Option:\n"
               << "\t-h,--help\t\tShow this help message\n"
-              << "DIMENSION:\n"
-              << "\tDimension of the three square matrices, must be greater than 0\n"
-              << "THREADS:\n"
-              << "\tNumber of threads to execute the program with, must be greater than 0\n"
+              << "MatrixA:\n"
+              << "\tString relative or absolute path to the MatrixA.txt\n"
+              << "MatrixB:\n"
+              << "\tString relative or absolute path to the MatrixB.txt\n"
               << std::endl;
 }
 
 void printWrongArguments(int argc, char** argv) {
-    std::cerr << "The following execution is incorrect: ";
+    std::cerr << "[ ERROR ] " << "The following execution is incorrect: ";
     for (int i = 0; i < argc; ++i) {
         std::cerr << argv[i] << " ";
     }
     std::cerr << "\n"
-              << "Run the following to check the correct execution:\n"
-              << "\t" << argv[0] << " -h" << std::endl;
+              << "          " << "Run the help option to check the correct execution:\n"
+              << "          " << "\t" << argv[0] << " -h" << std::endl;
+}
+
+void printWrongPathOrFile(const std::string& path) {
+    std::cerr << "[ ERROR ] " << "Something failed opening the input file " << path << "\n"
+              << "          " << "Check that the file exists and that the path is correct.\n";
 }
 
 }  // namespace
 
 namespace ArgumentsCheck {
 
-ArgumentsCase handleArguments(int argc, char** argv) {
+ArgumentsCase handleArgumentsAndGetFileHandles(const int argc, char** argv,
+                                               std::vector<std::ifstream>* input_files) {
     std::vector<std::string> arguments;
-    for (int i = 0; i < argc; ++i) {
+    for (int i = 1; i < argc; ++i) {
         arguments.push_back(argv[i]);
     }
-    if (argc > 1) {
-        if (arguments[1] == "-h" || arguments[1] == "--help") {
-            printHelpMessage(argv);
-            return ArgumentsCase::kHelp;
-        } else if (argc == 3) {
-            if (isPositiveNumber(arguments[kDimArg]) && isPositiveNumber(arguments[kThreadArg])) {
-                //*real_dimension = atoi(argv[kDimArg]);
-                //*real_num_threads = atoi(argv[kThreadArg]);
-                if (true /**real_dimension && *real_num_threads*/) {
-                    //printOkMessage(*real_dimension, *real_num_threads);
-                    return ArgumentsCase::kOk;
-                }
+
+    if (arguments.size() == 2) {
+        for (int i = 0; i < arguments.size(); ++i) {
+            (*input_files)[i].open(arguments[i], std::ios::in | std::ios::_Nocreate);
+            if ((*input_files)[i].fail()) {
+                printWrongPathOrFile(arguments[i]);
+                return ArgumentsCase::kWrongPathOrFile;
             }
+            std::cout << "Finished opening the input file " << arguments[i] << std::endl;
         }
+        printOkMessage();
+        return ArgumentsCase::kOk;
+    } else if (arguments.size() == 1 && (arguments[0] == "-h" || arguments[0] == "--help")) {
+        printHelpMessage(argv);
+        return ArgumentsCase::kHelp;
     }
     printWrongArguments(argc, argv);
     return ArgumentsCase::kWrongArguments;
