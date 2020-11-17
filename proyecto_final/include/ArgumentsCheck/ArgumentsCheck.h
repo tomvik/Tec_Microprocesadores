@@ -9,7 +9,7 @@ namespace ArgumentsCheck {
 enum class ArgumentsCase { kOk = 0, kHelp = 1, kWrongArguments = 2, kWrongPathOrFile = 3 };
 
 // Checks if the arguments are correct, and prints the appropiate message if neccesary.
-// It also updates the value of the variables real_dimension and real_num_threads.
+// It also updates the values of the files handles.
 ArgumentsCase handleArgumentsAndGetFileHandles(const int argc, char** argv,
                                                std::vector<std::ifstream>* input_files);
 
