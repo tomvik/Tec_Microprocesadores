@@ -1,4 +1,4 @@
-#include <GPUMatrix/GPUMatrix.cuh>
+#include <GPUMatrix/GPUMatrix.h>
 #include <stdio.h>
 
 namespace {

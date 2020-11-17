@@ -11,8 +11,10 @@ file(GLOB gpu_source_files "${CMAKE_SOURCE_DIR}/src/*.cu")
 include_directories(include)
 
 add_executable(main ${cpu_source_files})
+
 find_package(CUDA)
 CUDA_ADD_LIBRARY(main_gpu ${gpu_source_files})
+
 target_link_libraries(main main_gpu)
 
 

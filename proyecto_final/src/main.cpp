@@ -1,11 +1,12 @@
 // Code made by Tomas Alejandro Lugo Salinas
-// for the Hw6 of the lecture of Multiprocessors.
+// for the Final project of the lecture of Multiprocessors.
 // Compiled with Cmake in Windows as follows:
 //   cd Hw6
 //   mkdir build && cd build
-//   cmake .. -G"MinGW Makefiles"
+//   cmake ..
 //   cmake --build .
-// Executed as: main.exe
+// Executed as: .\Debug\main.exe
+// TODO(Tomas): check linux
 // And in Linux as follows:
 //   cd Hw6
 //   mkdir build && cd build
@@ -15,7 +16,7 @@
 // NOTE: If compilation fails, this link was extremely useful to verify the compiler:
 // https://stackoverflow.com/questions/35869564/cmake-on-windows
 
-#include <GPUMatrix/GPUMatrix.cuh>
+#include <GPUMatrix/GPUMatrix.h>
 #include <omp.h>
 #include <stdint.h>
 #include <stdio.h>
