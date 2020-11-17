@@ -18,6 +18,7 @@
 
 #include <ArgumentsCheck/ArgumentsCheck.h>
 #include <GPUMatrix/GPUMatrix.h>
+#include <MatrixCheck/MatrixCheck.h>
 #include <ScopeTimer/ScopeTimer.h>
 #include <omp.h>
 #include <stdint.h>
@@ -27,6 +28,19 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+
+template <typename T>
+void printMatrix(const std::vector<std::vector<T>>& matrix, const std::string name) {
+    std::cout << "Printing matrix: " << name << "\n";
+    for (const auto& row : matrix) {
+        for (const auto& element : row) {
+            std::cout << element << " ";
+        }
+        std::cout << "\n";
+    }
+    std::cout << "\n";
+    std::cout << std::endl;
+}
 
 int main(int argc, char** argv) {
     ScopeTimer::ScopeTimer timer("Main function");
@@ -43,10 +57,37 @@ int main(int argc, char** argv) {
         case ArgumentsCheck::ArgumentsCase::kWrongPathOrFile:
             return 2;
         case ArgumentsCheck::ArgumentsCase::kOk:
-        default:
             break;
+        default:
+            return 3;
     }
 
-    GPUMatrix::HelloThreadIdx();
-    return 0;
+    std::vector<std::vector<double>> matrixA;
+    std::vector<std::vector<double>> matrixB;
+
+    const auto matrix_case = MatrixCheck::handleMatrixInput(&matrixA, &matrixB, &input_files);
+
+    switch (matrix_case) {
+    case MatrixCheck::MatrixCase::kOk:
+        break;
+    case MatrixCheck::MatrixCase::kNotEnoughLines:
+        return 4;
+    case MatrixCheck::MatrixCase::kNotEnoughMemory:
+        return 5;
+    case MatrixCheck::MatrixCase::kWrongDimensions:
+        return 6;
+    default:
+        return 7;
+    }
+
+    /*for(int i = 0; i < 10; ++i) {
+        std::string line;
+        std::getline(input_files[0], line);
+        std::cout << line << std::endl;
+    }*/
+
+    printMatrix(matrixA, "A");
+
+    // GPUMatrix::HelloThreadIdx();
+        return 0;
 }
