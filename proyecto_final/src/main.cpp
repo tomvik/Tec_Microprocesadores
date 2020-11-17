@@ -17,6 +17,7 @@
 // https://stackoverflow.com/questions/35869564/cmake-on-windows
 
 #include <GPUMatrix/GPUMatrix.h>
+#include <ScopeTimer/ScopeTimer.h>
 #include <omp.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -209,6 +210,8 @@ int main() {
     float D[kArraySize] = {0};
     float E[kArraySize] = {0};
     float F[kArraySize] = {0};
+
+    ScopeTimer::ScopeTimer timer("Hola");
 
     GPUMatrix::HelloThreadIdx();
 /*
