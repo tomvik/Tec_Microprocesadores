@@ -1,8 +1,7 @@
 #include <ScopeTimer/ScopeTimer.h>
-
-#include <chrono>
-
 #include <stdio.h>
+
+#include <chrono>  // NOLINT [build/c++11]
 #include <iostream>
 
 namespace ScopeTimer {
