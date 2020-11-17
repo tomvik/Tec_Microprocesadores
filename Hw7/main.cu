@@ -1,6 +1,6 @@
 // Code made by Tomas Alejandro Lugo Salinas
 // for the Hw7 of the lecture of Multiprocessors.
-// Compiled in Windows 10 with: nvcc -Xcompiler "/openmp" main.cu -o main.exe
+// Compiled in Windows 10 with: nvcc -Xcompiler "/openmp" -arch=sm_61 main.cu -o main.exe
 // Executed in Windows 10 as: main.exe
 
 #include <stdio.h>
@@ -87,6 +87,24 @@ __global__ void singleGPUPi(const long cantidad_intervalos, const int total_thre
     }
 
     acum_arr[idx] = local_acum;
+}
+
+__global__ void singleGPUPiAtomic(const long cantidad_intervalos, const int total_threads, const int thread_per_block, double *acum) {
+    const double base_intervalo = 1.0 / cantidad_intervalos;
+    const int idx = threadIdx.x + (blockIdx.x * thread_per_block);
+
+    const long intervalos_local = cantidad_intervalos / total_threads;
+    double x = base_intervalo * intervalos_local * idx;
+    double fdx;
+    double local_acum = 0;
+
+    for (long i = 0; i < intervalos_local; i++) {
+        fdx = 4.0 / (1 + x * x);
+        local_acum += (fdx * base_intervalo);
+        x = x + base_intervalo;
+    }
+    
+    atomicAdd(acum, local_acum);
 }
 
 void gpuPiWithReduction(const long cantidad_intervalos, const int num_blocks, const int num_threads, const int times = 1) {
@@ -198,10 +216,42 @@ void gpuPiWithOMPReduction(const long cantidad_intervalos, const int num_blocks,
     printf("** The average of %d runs was: %ld **\n\n", times, total_time / times);
 }
 
+
+
+void gpuPiAtomic(const long cantidad_intervalos, const int num_blocks, const int num_threads, const int times = 1) {
+    printf("** Running the gpu code Atomic %d times **\n", times);
+    printf("* # of blocks: %d\n", num_blocks);
+    printf("* # of threads: %d\n", num_threads);
+    long total_time = 0;
+    clock_t start, end;
+    for(int iteration = 0; iteration < times; ++iteration) {
+        start = clock();
+
+        const int total_size = num_blocks * num_threads;
+
+        double *acum = nullptr;
+
+        cudaMallocManaged(&acum, sizeof(double));
+        
+        singleGPUPiAtomic<<<num_blocks, num_threads>>>(cantidad_intervalos, total_size, num_threads, acum);
+
+        cudaDeviceSynchronize();
+        
+        double final_acum = *acum;
+        cudaFree(acum);
+
+        end = clock();
+        total_time += (end - start);
+        printf("Result = %20.18lf (%ld)\n", final_acum, end - start);
+    }
+    printf("** The average of %d runs was: %ld **\n\n", times, total_time / times);
+}
+
 int main() {
     originalPi(kCantidadIntervalos, 5);
     gpuPiWithReduction(kCantidadIntervalos, 16, 1024, 5);
-    gpuPiWithoutReduction(kCantidadIntervalos, 16, 1024, 5);
+    gpuPiWithoutReduction(kCantidadIntervalos, 4, 1024, 5);
     gpuPiWithOMPReduction(kCantidadIntervalos, 16, 1024, 5);
+    gpuPiAtomic(kCantidadIntervalos, 4, 1024, 5);
     return 0;
 }
