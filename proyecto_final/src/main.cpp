@@ -20,6 +20,7 @@
 #include <GPUMatrix/GPUMatrix.h>
 #include <MatrixCheck/MatrixCheck.h>
 #include <MatrixMultiplier/MatrixMultiplier.h>
+#include <MatrixMultiplier/OMPMultiplier.h>
 #include <MatrixMultiplier/SingleThreadMultiplier.h>
 #include <ScopeTimer/ScopeTimer.h>
 #include <omp.h>
@@ -115,17 +116,22 @@ int main(int argc, char** argv) {
             return 8;
     }
 
-    printMatrix(matrix_a, dimensions[0], "A");
+    //printMatrix(matrix_a, dimensions[0], "A");
 
-    printMatrix(matrix_b, dimensions[1], "B");
+    //printMatrix(matrix_b, dimensions[1], "B");
 
-    MatrixMultiplier::MatrixMultiplier* matrix_multiplier =
+    MatrixMultiplier::MatrixMultiplier* single_thread_multiplier =
         new MatrixMultiplier::SingleThreadMultiplier();
+    MatrixMultiplier::MatrixMultiplier* omp_multiplier = new MatrixMultiplier::OMPMultiplier();
 
-    matrix_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5,
-                                      output_file_path);
+    std::cout << "\nSingle\n";
+    single_thread_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5,
+                                             output_file_path);
 
-    printMatrix(matrix_c, dimensions[2], "C");
+    std::cout << "\nOMP\n";
+    omp_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5, output_file_path);
+
+    //printMatrix(matrix_c, dimensions[2], "C");
 
     free(matrix_a);
     free(matrix_b);

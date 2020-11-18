@@ -15,7 +15,10 @@ add_executable(main ${cpu_source_files})
 find_package(CUDA)
 CUDA_ADD_LIBRARY(main_gpu ${gpu_source_files})
 
-target_link_libraries(main main_gpu)
+find_package(OpenMP)
+
+target_link_libraries(main main_gpu
+                           OpenMP::OpenMP_CXX )
 
 
 
