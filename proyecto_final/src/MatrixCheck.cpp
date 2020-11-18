@@ -40,7 +40,7 @@ bool fillMatrix(std::vector<std::vector<double>>* matrix, std::vector<std::ifstr
     for (int i = 0; i < (*matrix).size(); ++i) {
         for (int j = 0; j < (*matrix)[i].size(); ++j) {
             std::string line;
-            if (!std::getline((*input_files)[0], line)) {
+            if (!std::getline((*input_files)[file_number], line)) {
                 std::cerr << "[ ERROR ] "
                           << "Not enough lines in file " << letter << ".\n"
                           << "          "
@@ -53,6 +53,7 @@ bool fillMatrix(std::vector<std::vector<double>>* matrix, std::vector<std::ifstr
             iss >> (*matrix)[i][j];
         }
     }
+    return true;
 }
 
 }  // namespace
@@ -61,6 +62,7 @@ namespace MatrixCheck {
 
 MatrixCase handleMatrixInput(std::vector<std::vector<double>>* matrix_a,
                              std::vector<std::vector<double>>* matrix_b,
+                             std::vector<std::vector<double>>* matrix_c,
                              std::vector<std::ifstream>* input_files) {
     const auto& dimensions = getDimensions();
 
@@ -80,12 +82,14 @@ MatrixCase handleMatrixInput(std::vector<std::vector<double>>* matrix_a,
     try {
         std::vector<std::vector<double>> matrixA(matrix_a_rows, std::vector<double>(matrix_a_cols));
         std::vector<std::vector<double>> matrixB(matrix_b_rows, std::vector<double>(matrix_b_cols));
+        std::vector<std::vector<double>> matrixC(matrix_a_rows, std::vector<double>(matrix_b_cols));
 
         *matrix_a = matrixA;
         *matrix_b = matrixB;
+        *matrix_c = matrixC;
     } catch (const std::bad_alloc& ba) {
-        std::cerr << "[ ERROR ] "
-                  << "Not enough memory" << std::endl;
+        std::cerr << "[ ERROR ] " << "Not enough memory\n"
+                  << "          " << ba.what() << std::endl;
         return MatrixCase::kNotEnoughMemory;
     }
 

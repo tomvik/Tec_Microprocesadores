@@ -14,6 +14,7 @@ enum class MatrixCase { kOk = 0, kWrongDimensions = 1, kNotEnoughMemory = 2, kNo
 
 MatrixCase handleMatrixInput(std::vector<std::vector<double>>* matrix_a,
                              std::vector<std::vector<double>>* matrix_b,
+                             std::vector<std::vector<double>>* matrix_c,
                              std::vector<std::ifstream>* input_files);
 
 }  // namespace MatrixCheck
