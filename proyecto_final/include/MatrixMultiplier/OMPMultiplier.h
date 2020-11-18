@@ -13,7 +13,7 @@ namespace MatrixMultiplier {
 class OMPMultiplier : public MatrixMultiplier {
  public:
     // Creates a OMPMultiplier.
-    OMPMultiplier();
+    explicit OMPMultiplier(const int thread_num);
 
     // Destructor of the OMPMultiplier.
     ~OMPMultiplier();
@@ -23,6 +23,8 @@ class OMPMultiplier : public MatrixMultiplier {
     // By this point it is assured that the matrices are correct and can be multiplied.
     void multiply(double** matrix_a, double** matrix_b, double** matrix_c,
                   const std::vector<std::pair<int, int>>& dimensions);
+
+    int thread_num_;
 };
 
 }  // namespace MatrixMultiplier

@@ -52,7 +52,7 @@ bool MatrixMultiplier::compareToOutputFile(double** matrix, const std::pair<int,
 
     result_file.open(file_path, std::ios::in | std::ios::_Nocreate);
 
-    if(result_file.fail()) {
+    if (result_file.fail()) {
         writeToOutputFile(matrix, dimension, file_path);
         return true;
     }
