@@ -57,12 +57,16 @@ void printMatrix(double** matrix, const std::pair<int, int> dimensions, const st
 }
 
 int main(int argc, char** argv) {
-    ScopeTimer::ScopeTimer timer("Main function");
+    const ScopeTimer::ScopeTimer timer("Main function");
 
     std::vector<std::ifstream> input_files(2);
+    std::string output_file_path = "";
 
-    const auto argument_case =
-        ArgumentsCheck::handleArgumentsAndGetFileHandles(argc, argv, &input_files);
+    const auto& argument_case =
+        ArgumentsCheck::handleArgumentsAndGetFileHandles(argc,
+                                                         argv,
+                                                         &input_files,
+                                                         &output_file_path);
     switch (argument_case) {
         case ArgumentsCheck::ArgumentsCase::kHelp:
             return 0;
@@ -78,7 +82,7 @@ int main(int argc, char** argv) {
 
     std::vector<std::pair<int, int>> dimensions;
 
-    const auto matrix_input_case = MatrixCheck::handleMatrixInput(&dimensions);
+    const auto& matrix_input_case = MatrixCheck::handleMatrixInput(&dimensions);
 
     switch (matrix_input_case) {
         case MatrixCheck::MatrixCase::kOk:
@@ -89,18 +93,18 @@ int main(int argc, char** argv) {
             return 5;
     }
 
-    const long long len_a = sizeof(double*) * dimensions[0].first +
-                            sizeof(double) * dimensions[0].second * dimensions[0].first;
-    const long long len_b = sizeof(double*) * dimensions[1].first +
-                            sizeof(double) * dimensions[1].second * dimensions[1].first;
-    const long long len_c = sizeof(double*) * dimensions[2].first +
-                            sizeof(double) * dimensions[2].second * dimensions[2].first;
+    const int64_t len_a = sizeof(double*) * dimensions[0].first +
+                          sizeof(double) * dimensions[0].second * dimensions[0].first;
+    const int64_t len_b = sizeof(double*) * dimensions[1].first +
+                          sizeof(double) * dimensions[1].second * dimensions[1].first;
+    const int64_t len_c = sizeof(double*) * dimensions[2].first +
+                          sizeof(double) * dimensions[2].second * dimensions[2].first;
 
-    double** matrix_a = (double**)malloc(len_a);
-    double** matrix_b = (double**)malloc(len_b);
-    double** matrix_c = (double**)malloc(len_c);
+    double** matrix_a = reinterpret_cast<double**>(malloc(len_a));
+    double** matrix_b = reinterpret_cast<double**>(malloc(len_b));
+    double** matrix_c = reinterpret_cast<double**>(malloc(len_c));
 
-    const auto matrix_malloc_case =
+    const auto& matrix_malloc_case =
         MatrixCheck::handleMallocAndFilling(matrix_a, matrix_b, matrix_c, &input_files, dimensions);
 
     switch (matrix_malloc_case) {
@@ -124,6 +128,10 @@ int main(int argc, char** argv) {
     matrix_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 1);
 
     printMatrix(matrix_c, dimensions[2], "C");
+
+    free(matrix_a);
+    free(matrix_b);
+    free(matrix_c);
 
     return 0;
 }
