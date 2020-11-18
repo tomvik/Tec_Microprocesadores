@@ -19,6 +19,8 @@
 #include <ArgumentsCheck/ArgumentsCheck.h>
 #include <GPUMatrix/GPUMatrix.h>
 #include <MatrixCheck/MatrixCheck.h>
+#include <MatrixMultiplier/MatrixMultiplier.h>
+#include <MatrixMultiplier/SingleThreadMultiplier.h>
 #include <ScopeTimer/ScopeTimer.h>
 #include <omp.h>
 #include <stdint.h>
@@ -64,30 +66,34 @@ int main(int argc, char** argv) {
 
     std::vector<std::vector<double>> matrixA;
     std::vector<std::vector<double>> matrixB;
+    std::vector<std::vector<double>> matrixC;
 
-    const auto matrix_case = MatrixCheck::handleMatrixInput(&matrixA, &matrixB, &input_files);
+    const auto matrix_case =
+        MatrixCheck::handleMatrixInput(&matrixA, &matrixB, &matrixC, &input_files);
 
     switch (matrix_case) {
-    case MatrixCheck::MatrixCase::kOk:
-        break;
-    case MatrixCheck::MatrixCase::kNotEnoughLines:
-        return 4;
-    case MatrixCheck::MatrixCase::kNotEnoughMemory:
-        return 5;
-    case MatrixCheck::MatrixCase::kWrongDimensions:
-        return 6;
-    default:
-        return 7;
+        case MatrixCheck::MatrixCase::kOk:
+            break;
+        case MatrixCheck::MatrixCase::kNotEnoughLines:
+            return 4;
+        case MatrixCheck::MatrixCase::kNotEnoughMemory:
+            return 5;
+        case MatrixCheck::MatrixCase::kWrongDimensions:
+            return 6;
+        default:
+            return 7;
     }
-
-    /*for(int i = 0; i < 10; ++i) {
-        std::string line;
-        std::getline(input_files[0], line);
-        std::cout << line << std::endl;
-    }*/
 
     printMatrix(matrixA, "A");
 
-    // GPUMatrix::HelloThreadIdx();
-        return 0;
+    printMatrix(matrixB, "B");
+
+    MatrixMultiplier::MatrixMultiplier* matrix_multiplier =
+        new MatrixMultiplier::SingleThreadMultiplier();
+
+    matrix_multiplier->multiplyNTimes(matrixA, matrixB, &matrixC, 1);
+
+    printMatrix(matrixC, "C");
+
+    return 0;
 }
