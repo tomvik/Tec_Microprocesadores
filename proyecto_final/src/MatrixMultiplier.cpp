@@ -13,6 +13,8 @@ namespace MatrixMultiplier {
 
 MatrixMultiplier::MatrixMultiplier() {}
 
+MatrixMultiplier::~MatrixMultiplier() {}
+
 bool MatrixMultiplier::output_file_has_been_opened = false;
 
 const std::vector<double> MatrixMultiplier::getRunTimes() { return run_times_; }
@@ -31,6 +33,7 @@ const double MatrixMultiplier::getAverageRunTime() {
 
 void MatrixMultiplier::writeToOutputFile(double** matrix, const std::pair<int, int>& dimension,
                                          const std::string& file_path) {
+    std::cout << "Now the result will be written to the output file.\n";
     std::ofstream output_file;
 
     output_file.open(file_path, std::ios::out | std::ios::trunc);
@@ -48,6 +51,7 @@ void MatrixMultiplier::writeToOutputFile(double** matrix, const std::pair<int, i
 
 bool MatrixMultiplier::compareToOutputFile(double** matrix, const std::pair<int, int>& dimension,
                                            const std::string& file_path) {
+    std::cout << "Now the result will be verified.\n";
     std::ifstream result_file;
 
     result_file.open(file_path);
@@ -82,10 +86,16 @@ bool MatrixMultiplier::compareToOutputFile(double** matrix, const std::pair<int,
 void MatrixMultiplier::multiplyNTimes(double** matrix_a, double** matrix_b, double** matrix_c,
                                       const std::vector<std::pair<int, int>>& dimensions,
                                       const int number_of_runs, const std::string& file_path) {
+    std::cout << "\n\n*** It will run " << number_of_runs << " times the " << getMethodName()
+              << " method with " << getThreadsAmount() << " thread(s)\n";
     for (int run = 0; run < number_of_runs; ++run) {
-        ScopeTimer::ScopeTimer timer("multiplyNTimes");
+        ScopeTimer::ScopeTimer timer("multiplyNTimes", true);
+
         multiply(matrix_a, matrix_b, matrix_c, dimensions);
         run_times_.emplace_back(timer.getDuration());
+
+        std::cout << "For the iteration #" << run + 1 << " it took "
+                  << run_times_[run_times_.size() - 1] << " seconds.\n";
 
         if (!output_file_has_been_opened) {
             writeToOutputFile(matrix_c, dimensions[2], file_path);

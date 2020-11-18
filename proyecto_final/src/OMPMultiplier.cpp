@@ -29,4 +29,12 @@ void OMPMultiplier::multiply(double** matrix_a, double** matrix_b, double** matr
     }
 }
 
+std::string OMPMultiplier::getMethodName() {
+    return method_name_;
+}
+
+int OMPMultiplier::getThreadsAmount() {
+    return amount_of_threads_;
+}
+
 }  // namespace MatrixMultiplier

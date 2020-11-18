@@ -24,6 +24,12 @@ class MatrixMultiplier {
                         const std::vector<std::pair<int, int>>& dimensions,
                         const int number_of_runs, const std::string& file_path);
 
+    // Returns the name of the method being used.
+    virtual std::string getMethodName() = 0;
+
+    // Returns the number of threads being used.
+    virtual int getThreadsAmount() = 0;
+
     // Destructor of the MatrixMultiplier.
     ~MatrixMultiplier();
 

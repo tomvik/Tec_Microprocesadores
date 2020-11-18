@@ -14,6 +14,12 @@ class PThreadMultiplier : public MatrixMultiplier {
  public:
     // Creates a PThreadMultiplier.
     explicit PThreadMultiplier(const int amount_of_threads);
+    
+    // Returns the name of the method being used.
+    std::string getMethodName();
+
+    // Returns the number of threads being used.
+    int getThreadsAmount();
 
     // Destructor of the PThreadMultiplier.
     ~PThreadMultiplier();
@@ -25,6 +31,7 @@ class PThreadMultiplier : public MatrixMultiplier {
                   const std::vector<std::pair<int, int>>& dimensions);
 
     int amount_of_threads_;
+    const std::string method_name_ = "PThread";
 };
 
 }  // namespace MatrixMultiplier

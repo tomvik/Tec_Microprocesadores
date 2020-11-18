@@ -117,20 +117,18 @@ int main(int argc, char** argv) {
             return 8;
     }
 
+    //std::vector<MatrixMultiplier::MatrixMultiplier*> multipliers;
+
     MatrixMultiplier::MatrixMultiplier* single_thread_multiplier =
         new MatrixMultiplier::SingleThreadMultiplier();
-
-    std::cout << "\nSingle\n";
     single_thread_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5,
                                              output_file_path);
 
     MatrixMultiplier::MatrixMultiplier* omp_multiplier = new MatrixMultiplier::OMPMultiplier(16);
-    std::cout << "\nOMP\n";
     omp_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5, output_file_path);
 
     MatrixMultiplier::MatrixMultiplier* pthread_multiplier =
         new MatrixMultiplier::PThreadMultiplier(16);
-    std::cout << "\nPThread\n";
     pthread_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5,
                                        output_file_path);
 

@@ -72,4 +72,12 @@ void PThreadMultiplier::multiply(double** matrix_a, double** matrix_b, double** 
     }
 }
 
+std::string PThreadMultiplier::getMethodName() {
+    return method_name_;
+}
+
+int PThreadMultiplier::getThreadsAmount() {
+    return amount_of_threads_;
+}
+
 }  // namespace MatrixMultiplier

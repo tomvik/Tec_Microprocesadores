@@ -24,4 +24,12 @@ void SingleThreadMultiplier::multiply(double** matrix_a, double** matrix_b, doub
     }
 }
 
+std::string SingleThreadMultiplier::getMethodName() {
+    return method_name_;
+}
+
+int SingleThreadMultiplier::getThreadsAmount() {
+    return 1;
+}
+
 }  // namespace MatrixMultiplier
