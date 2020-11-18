@@ -39,7 +39,7 @@ void* singleThreadMul(void* arg) {
 namespace MatrixMultiplier {
 
 PThreadMultiplier::PThreadMultiplier(const int amount_of_threads)
-    : MatrixMultiplier(), amount_of_threads_(amount_of_threads) {}
+    : MatrixMultiplier("PThread", amount_of_threads) {}
 
 void PThreadMultiplier::multiply(double** matrix_a, double** matrix_b, double** matrix_c,
                                  const std::vector<std::pair<int, int>>& dimensions) {
@@ -70,14 +70,6 @@ void PThreadMultiplier::multiply(double** matrix_a, double** matrix_b, double** 
     for (int i = 0; i < kThreads; ++i) {
         pthread_join(pthreadID[i], NULL);
     }
-}
-
-std::string PThreadMultiplier::getMethodName() {
-    return method_name_;
-}
-
-int PThreadMultiplier::getThreadsAmount() {
-    return amount_of_threads_;
 }
 
 }  // namespace MatrixMultiplier

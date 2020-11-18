@@ -11,7 +11,7 @@ namespace MatrixMultiplier {
 class MatrixMultiplier {
  public:
     // Creates a MatrixMultiplier.
-    MatrixMultiplier();
+    MatrixMultiplier(const std::string& method_name, const int amount_threads);
 
     // Returns all the runtimes.
     const std::vector<double> getRunTimes();
@@ -19,16 +19,16 @@ class MatrixMultiplier {
     // Returns the average runtime.
     const double getAverageRunTime();
 
+    // Returns the name of the method being used.
+    const std::string getMethodName();
+
+    // Returns the number of threads being used.
+    const int getThreadsAmount();
+
     // Will multiply the matrices number_of_runs times;
     void multiplyNTimes(double** matrix_a, double** matrix_b, double** matrix_c,
                         const std::vector<std::pair<int, int>>& dimensions,
                         const int number_of_runs, const std::string& file_path);
-
-    // Returns the name of the method being used.
-    virtual std::string getMethodName() = 0;
-
-    // Returns the number of threads being used.
-    virtual int getThreadsAmount() = 0;
 
     // Destructor of the MatrixMultiplier.
     ~MatrixMultiplier();
@@ -52,6 +52,8 @@ class MatrixMultiplier {
                              const std::string& file_path);
 
     std::vector<double> run_times_;
+    std::string method_name_;
+    int amount_of_threads_;
 
     static bool output_file_has_been_opened;
 

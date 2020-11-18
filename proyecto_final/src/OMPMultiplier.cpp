@@ -9,7 +9,7 @@
 namespace MatrixMultiplier {
 
 OMPMultiplier::OMPMultiplier(const int amount_of_threads)
-    : MatrixMultiplier(), amount_of_threads_(amount_of_threads) {}
+    : MatrixMultiplier("OMP", amount_of_threads) {}
 
 void OMPMultiplier::multiply(double** matrix_a, double** matrix_b, double** matrix_c,
                              const std::vector<std::pair<int, int>>& dimensions) {
@@ -27,14 +27,6 @@ void OMPMultiplier::multiply(double** matrix_a, double** matrix_b, double** matr
             matrix_c[row_a][col_b] = acum;
         }
     }
-}
-
-std::string OMPMultiplier::getMethodName() {
-    return method_name_;
-}
-
-int OMPMultiplier::getThreadsAmount() {
-    return amount_of_threads_;
 }
 
 }  // namespace MatrixMultiplier

@@ -11,7 +11,8 @@
 
 namespace MatrixMultiplier {
 
-MatrixMultiplier::MatrixMultiplier() {}
+MatrixMultiplier::MatrixMultiplier(const std::string& method_name, const int amount_threads)
+    : method_name_(method_name), amount_of_threads_(amount_threads) {}
 
 MatrixMultiplier::~MatrixMultiplier() {}
 
@@ -30,6 +31,10 @@ const double MatrixMultiplier::getAverageRunTime() {
     }
     return sum / run_times_.size();
 }
+
+const std::string MatrixMultiplier::getMethodName() { return method_name_; }
+
+const int MatrixMultiplier::getThreadsAmount() { return amount_of_threads_; }
 
 void MatrixMultiplier::writeToOutputFile(double** matrix, const std::pair<int, int>& dimension,
                                          const std::string& file_path) {

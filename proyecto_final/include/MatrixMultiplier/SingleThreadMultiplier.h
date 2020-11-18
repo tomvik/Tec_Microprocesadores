@@ -15,12 +15,6 @@ class SingleThreadMultiplier : public MatrixMultiplier {
     // Creates a SingleThreadMultiplier.
     SingleThreadMultiplier();
 
-    // Returns the name of the method being used.
-    std::string getMethodName();
-
-    // Returns the number of threads being used.
-    int getThreadsAmount();
-
     // Destructor of the SingleThreadMultiplier.
     ~SingleThreadMultiplier();
 
@@ -29,8 +23,6 @@ class SingleThreadMultiplier : public MatrixMultiplier {
     // By this point it is assured that the matrices are correct and can be multiplied.
     void multiply(double** matrix_a, double** matrix_b, double** matrix_c,
                   const std::vector<std::pair<int, int>>& dimensions);
-
-    const std::string method_name_ = "Single Thread";
 };
 
 }  // namespace MatrixMultiplier
