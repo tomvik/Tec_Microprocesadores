@@ -57,6 +57,14 @@ bool fillMatrix(double** matrix, const int rows, const int cols,
     return true;
 }
 
+void fillMatrixZero(double** matrix, const int rows, const int cols) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            matrix[i][j] = 0;
+        }
+    }
+}
+
 void pointCorrectly(double** matrix, const std::pair<int, int>& dimension) {
     double* ptr = reinterpret_cast<double*>(matrix + dimension.first);
     for (int i = 0; i < dimension.first; i++) matrix[i] = (ptr + dimension.second * i);
@@ -79,8 +87,8 @@ MatrixCase handleMatrixInput(std::vector<std::pair<int, int>>* dimensions) {
         std::cerr
             << "[ ERROR ] "
             << "The sizes are incompatible. The columns of A must be the same as the rows of B.\n"
-            << "          " << "And all sizes must be positive greater than 0."
-            << std::endl;
+            << "          "
+            << "And all sizes must be positive greater than 0." << std::endl;
         return MatrixCase::kWrongDimensions;
     }
 
@@ -106,6 +114,7 @@ MatrixCase handleMallocAndFilling(double** matrix_a, double** matrix_b, double**
 
     if (fillMatrix(matrix_a, dimensions[0].first, dimensions[0].second, input_files, 0) &&
         fillMatrix(matrix_b, dimensions[1].first, dimensions[1].second, input_files, 1)) {
+        fillMatrixZero(matrix_c, dimensions[2].first, dimensions[2].second);
         return MatrixCase::kOk;
     }
 

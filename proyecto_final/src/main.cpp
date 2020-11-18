@@ -122,6 +122,8 @@ int main(int argc, char** argv) {
 
     printMatrix(matrix_b, dimensions[1], "B");
 
+    printMatrix(matrix_c, dimensions[2], "C");
+
     MatrixMultiplier::MatrixMultiplier* matrix_multiplier =
         new MatrixMultiplier::SingleThreadMultiplier();
 
