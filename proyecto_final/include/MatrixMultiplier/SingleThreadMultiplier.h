@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace MatrixMultiplier {
 
@@ -20,9 +21,8 @@ class SingleThreadMultiplier : public MatrixMultiplier {
  protected:
     // Multiplies matrix_a and matrix_b storing it in matrix_c
     // By this point it is assured that the matrices are correct and can be multiplied.
-    void multiply(const std::vector<std::vector<double>>& matrix_a,
-                          const std::vector<std::vector<double>>& matrix_b,
-                          std::vector<std::vector<double>>* matrix_c);
+    void multiply(double** matrix_a, double** matrix_b, double** matrix_c,
+                  const std::vector<std::pair<int, int>>& dimensions);
 };
 
 }  // namespace MatrixMultiplier

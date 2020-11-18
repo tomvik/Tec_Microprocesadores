@@ -1,9 +1,9 @@
 #include <MatrixMultiplier/MatrixMultiplier.h>
-
 #include <ScopeTimer/ScopeTimer.h>
 
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace MatrixMultiplier {
 
@@ -23,12 +23,12 @@ const double MatrixMultiplier::getAverageRunTime() {
     return sum / run_times_.size();
 }
 
-void MatrixMultiplier::multiplyNTimes(const std::vector<std::vector<double>>& matrix_a,
-                    const std::vector<std::vector<double>>& matrix_b,
-                    std::vector<std::vector<double>>* matrix_c, const int number_of_runs) {
+void MatrixMultiplier::multiplyNTimes(double** matrix_a, double** matrix_b, double** matrix_c,
+                                      const std::vector<std::pair<int, int>>& dimensions,
+                                      const int number_of_runs) {
     for (int run = 0; run < number_of_runs; ++run) {
         ScopeTimer::ScopeTimer timer("multiplyNTimes");
-        multiply(matrix_a, matrix_b, matrix_c);
+        multiply(matrix_a, matrix_b, matrix_c, dimensions);
         run_times_.emplace_back(timer.getDuration());
     }
 }
