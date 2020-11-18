@@ -27,6 +27,8 @@ class MatrixMultiplier {
     // Destructor of the MatrixMultiplier.
     ~MatrixMultiplier();
 
+    static bool output_file_has_been_opened;
+
  protected:
     // Multiplies matrix_a and matrix_b storing it in matrix_c
     // By this point it is assured that the matrices are correct and can be multiplied.

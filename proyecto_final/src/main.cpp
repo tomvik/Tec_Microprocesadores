@@ -127,7 +127,7 @@ int main(int argc, char** argv) {
     MatrixMultiplier::MatrixMultiplier* matrix_multiplier =
         new MatrixMultiplier::SingleThreadMultiplier();
 
-    matrix_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 1);
+    matrix_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5);
 
     printMatrix(matrix_c, dimensions[2], "C");
 
