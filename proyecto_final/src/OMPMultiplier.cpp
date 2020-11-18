@@ -20,10 +20,11 @@ void OMPMultiplier::multiply(double** matrix_a, double** matrix_b, double** matr
 #pragma omp parallel for num_threads(amount_of_threads_)
     for (int row_a = 0; row_a < matrix_a_rows; ++row_a) {
         for (int col_b = 0; col_b < matrix_b_cols; ++col_b) {
-            matrix_c[row_a][col_b] = 0;
+            double acum = 0;
             for (int col_a = 0; col_a < matrix_a_cols; ++col_a) {
-                matrix_c[row_a][col_b] += matrix_a[row_a][col_a] * matrix_b[col_a][col_b];
+                acum += matrix_a[row_a][col_a] * matrix_b[col_a][col_b];
             }
+            matrix_c[row_a][col_b] = acum;
         }
     }
 }
