@@ -21,6 +21,7 @@
 #include <MatrixCheck/MatrixCheck.h>
 #include <MatrixMultiplier/MatrixMultiplier.h>
 #include <MatrixMultiplier/OMPMultiplier.h>
+#include <MatrixMultiplier/PThreadMultiplier.h>
 #include <MatrixMultiplier/SingleThreadMultiplier.h>
 #include <ScopeTimer/ScopeTimer.h>
 #include <omp.h>
@@ -118,14 +119,20 @@ int main(int argc, char** argv) {
 
     MatrixMultiplier::MatrixMultiplier* single_thread_multiplier =
         new MatrixMultiplier::SingleThreadMultiplier();
-    MatrixMultiplier::MatrixMultiplier* omp_multiplier = new MatrixMultiplier::OMPMultiplier(16);
 
     std::cout << "\nSingle\n";
     single_thread_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5,
                                              output_file_path);
 
+    MatrixMultiplier::MatrixMultiplier* omp_multiplier = new MatrixMultiplier::OMPMultiplier(16);
     std::cout << "\nOMP\n";
     omp_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5, output_file_path);
+
+    MatrixMultiplier::MatrixMultiplier* pthread_multiplier =
+        new MatrixMultiplier::PThreadMultiplier(16);
+    std::cout << "\nPThread\n";
+    pthread_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5,
+                                       output_file_path);
 
     free(matrix_a);
     free(matrix_b);

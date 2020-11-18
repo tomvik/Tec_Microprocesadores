@@ -1,4 +1,4 @@
-#include <MatrixMultiplier/OMPMultiplier.h>
+#include <MatrixMultiplier/PThreadMultiplier.h>
 #include <omp.h>
 
 #include <iostream>
@@ -8,11 +8,11 @@
 
 namespace MatrixMultiplier {
 
-OMPMultiplier::OMPMultiplier(const int amount_of_threads)
+PThreadMultiplier::PThreadMultiplier(const int amount_of_threads)
     : MatrixMultiplier(), amount_of_threads_(amount_of_threads) {}
 
-void OMPMultiplier::multiply(double** matrix_a, double** matrix_b, double** matrix_c,
-                             const std::vector<std::pair<int, int>>& dimensions) {
+void PThreadMultiplier::multiply(double** matrix_a, double** matrix_b, double** matrix_c,
+                                 const std::vector<std::pair<int, int>>& dimensions) {
     const int matrix_a_rows = dimensions[0].first;
     const int matrix_a_cols = dimensions[0].second;
     const int matrix_b_cols = dimensions[1].second;

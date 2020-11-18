@@ -1,6 +1,6 @@
 
-#ifndef PROYECTO_FINAL_INCLUDE_MATRIXMULTIPLIER_OMPMULTIPLIER_H_
-#define PROYECTO_FINAL_INCLUDE_MATRIXMULTIPLIER_OMPMULTIPLIER_H_
+#ifndef PROYECTO_FINAL_INCLUDE_MATRIXMULTIPLIER_PTHREADMULTIPLIER_H_
+#define PROYECTO_FINAL_INCLUDE_MATRIXMULTIPLIER_PTHREADMULTIPLIER_H_
 
 #include <MatrixMultiplier/MatrixMultiplier.h>
 
@@ -10,13 +10,13 @@
 
 namespace MatrixMultiplier {
 
-class OMPMultiplier : public MatrixMultiplier {
+class PThreadMultiplier : public MatrixMultiplier {
  public:
-    // Creates a OMPMultiplier.
-    explicit OMPMultiplier(const int amount_of_threads);
+    // Creates a PThreadMultiplier.
+    explicit PThreadMultiplier(const int amount_of_threads);
 
-    // Destructor of the OMPMultiplier.
-    ~OMPMultiplier();
+    // Destructor of the PThreadMultiplier.
+    ~PThreadMultiplier();
 
  protected:
     // Multiplies matrix_a and matrix_b storing it in matrix_c
@@ -29,4 +29,4 @@ class OMPMultiplier : public MatrixMultiplier {
 
 }  // namespace MatrixMultiplier
 
-#endif  // PROYECTO_FINAL_INCLUDE_MATRIXMULTIPLIER_OMPMULTIPLIER_H_
+#endif  // PROYECTO_FINAL_INCLUDE_MATRIXMULTIPLIER_PTHREADMULTIPLIER_H_
