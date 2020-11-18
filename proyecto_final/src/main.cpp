@@ -62,11 +62,8 @@ int main(int argc, char** argv) {
     std::vector<std::ifstream> input_files(2);
     std::string output_file_path = "";
 
-    const auto& argument_case =
-        ArgumentsCheck::handleArgumentsAndGetFileHandles(argc,
-                                                         argv,
-                                                         &input_files,
-                                                         &output_file_path);
+    const auto& argument_case = ArgumentsCheck::handleArgumentsAndGetFileHandles(
+        argc, argv, &input_files, &output_file_path);
     switch (argument_case) {
         case ArgumentsCheck::ArgumentsCase::kHelp:
             return 0;
@@ -122,12 +119,11 @@ int main(int argc, char** argv) {
 
     printMatrix(matrix_b, dimensions[1], "B");
 
-    printMatrix(matrix_c, dimensions[2], "C");
-
     MatrixMultiplier::MatrixMultiplier* matrix_multiplier =
         new MatrixMultiplier::SingleThreadMultiplier();
 
-    matrix_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5);
+    matrix_multiplier->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5,
+                                      output_file_path);
 
     printMatrix(matrix_c, dimensions[2], "C");
 
