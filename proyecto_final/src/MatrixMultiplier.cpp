@@ -50,9 +50,9 @@ bool MatrixMultiplier::compareToOutputFile(double** matrix, const std::pair<int,
                                            const std::string& file_path) {
     std::ifstream result_file;
 
-    result_file.open(file_path, std::ios::in | std::ios::_Nocreate);
+    result_file.open(file_path);
 
-    if (result_file.fail()) {
+    if (!result_file.is_open() || result_file.fail()) {
         writeToOutputFile(matrix, dimension, file_path);
         return true;
     }

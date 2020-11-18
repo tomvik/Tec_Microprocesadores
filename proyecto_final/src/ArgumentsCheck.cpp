@@ -59,8 +59,8 @@ ArgumentsCase handleArgumentsAndGetFileHandles(const int argc, char** argv,
 
     if (arguments.size() == 2) {
         for (int i = 0; i < arguments.size(); ++i) {
-            (*input_files)[i].open(arguments[i], std::ios::in | std::ios::_Nocreate);
-            if ((*input_files)[i].fail()) {
+            (*input_files)[i].open(arguments[i]);
+            if (!(*input_files)[i].is_open() || (*input_files)[i].fail()) {
                 printWrongPathOrFile(arguments[i]);
                 return ArgumentsCase::kWrongPathOrFile;
             }

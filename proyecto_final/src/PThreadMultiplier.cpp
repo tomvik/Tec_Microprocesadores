@@ -1,5 +1,6 @@
 #include <MatrixMultiplier/PThreadMultiplier.h>
 #include <omp.h>
+#include <pthread.h>
 
 #include <iostream>
 #include <string>

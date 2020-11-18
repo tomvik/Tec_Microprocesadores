@@ -6,7 +6,7 @@
 #include <string>
 
 namespace ScopeTimer {
-    
+
 class ScopeTimer {
  public:
     // Creates a ScopeTimer with the name given.
@@ -21,7 +21,7 @@ class ScopeTimer {
 
  private:
     std::string name_;
-    std::chrono::steady_clock::time_point initial_time_;
+    std::chrono::_V2::system_clock::time_point initial_time_;
 };
 
 }  // namespace ScopeTimer
