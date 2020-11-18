@@ -19,7 +19,7 @@ void printHelpMessage(char** argv) {
               << "\t-h,--help\t\tShow this help message\n"
               << "MatrixA:\n"
               << "\tString relative or absolute path to the MatrixA.txt\n"
-              << "\tNOTE: this path will also be used for the MatrixC.txt\n"
+              << "\tNOTE: this path will also be used for the matrixC.txt\n"
               << "MatrixB:\n"
               << "\tString relative or absolute path to the MatrixB.txt\n"
               << std::endl;
@@ -67,7 +67,7 @@ ArgumentsCase handleArgumentsAndGetFileHandles(const int argc, char** argv,
             std::cout << "Finished opening the input file " << arguments[i] << std::endl;
         }
         const size_t pos_relative_path = arguments[0].find_last_of('/') + 1;
-        *output_file_path = arguments[0].substr(0, pos_relative_path) + "MatrixC.txt";
+        *output_file_path = arguments[0].substr(0, pos_relative_path) + "matrixC.txt";
         printOkMessage(*output_file_path);
         return ArgumentsCase::kOk;
     } else if (arguments.size() == 1 && (arguments[0] == "-h" || arguments[0] == "--help")) {

@@ -6,3 +6,5 @@ build
 
 *.exp
 *.lib
+
+matrixC.txt
