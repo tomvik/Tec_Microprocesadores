@@ -1,0 +1,47 @@
+cmake_minimum_required(VERSION 3.10)
+project(Final_Project VERSION 1.0)
+
+option(USE_CUDA "Use CUDA" ON)
+
+# Specify build type
+set(CMAKE_BUILD_TYPE Debug)
+
+message("[CMAKE] CMAKE_BUILD_TYPE= ${CMAKE_BUILD_TYPE}")
+
+# Specify the C++ standard
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# CUDA Package
+find_package(CUDA REQUIRED)
+#set(CUDA_SEPARABLE_COMPILATION ON)
+set(CUDA_PROPAGATE_HOST_FLAGS OFF)
+set(CUDA_HOST_COMPILER clang++)
+set(CUDA_VERBOSE_BUILD ON)
+LIST(APPEND CUDA_NVCC_FLAGS "-arch=sm_61")
+
+# Set include directories
+include_directories(include)
+
+# Add the library
+add_subdirectory(include/GPUMatrix)
+
+# Create executable
+add_executable(main src/main.cpp)
+
+# Link the libraries
+target_link_libraries( main PUBLIC
+                            GPUMatrix )
+
+# find and link OpenMP
+find_package(OpenMP)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries( main PUBLIC 
+                            OpenMP::OpenMP_CXX )
+endif()
+
+add_definitions(-DUSE_CUDA)
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
