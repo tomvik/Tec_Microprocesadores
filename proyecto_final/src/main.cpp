@@ -3,7 +3,7 @@
 // Compiled with Cmake in Windows as follows:
 //   cd Hw6
 //   mkdir build && cd build
-//   cmake ..
+//   cmake .. G"MinGW Makefiles"
 //   cmake --build .
 // Executed as: .\Debug\main.exe "Path_to_MatrixA.txt" "Path_to_MatrixB.txt"
 // TODO(Tomas): check linux
@@ -195,6 +195,7 @@ int main(int argc, char** argv) {
     multipliers.emplace_back(new MatrixMultiplier::SingleThreadMultiplier());
     multipliers.emplace_back(new MatrixMultiplier::OMPMultiplier(16));
     multipliers.emplace_back(new MatrixMultiplier::PThreadMultiplier(16));
+    multipliers.emplace_back(new MatrixMultiplier::PThreadMultiplier(8));
 
     const int runs = 5;
 
