@@ -6,11 +6,11 @@
 #include <string>
 
 namespace ScopeTimer {
-    
+
 class ScopeTimer {
  public:
     // Creates a ScopeTimer with the name given.
-    explicit ScopeTimer(const std::string& name);
+    explicit ScopeTimer(const std::string& name, const bool silent = false);
 
     // Returns the duration since the initial time in seconds.
     const double getDuration();
@@ -21,7 +21,8 @@ class ScopeTimer {
 
  private:
     std::string name_;
-    std::chrono::steady_clock::time_point initial_time_;
+    bool silent_;
+    std::chrono::_V2::system_clock::time_point initial_time_;
 };
 
 }  // namespace ScopeTimer

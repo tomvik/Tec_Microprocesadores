@@ -1,12 +1,12 @@
 #include <MatrixMultiplier/SingleThreadMultiplier.h>
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace MatrixMultiplier {
 
-SingleThreadMultiplier::SingleThreadMultiplier() : MatrixMultiplier() {}
+SingleThreadMultiplier::SingleThreadMultiplier() : MatrixMultiplier("Single Thread", 1) {}
 
 void SingleThreadMultiplier::multiply(double** matrix_a, double** matrix_b, double** matrix_c,
                                       const std::vector<std::pair<int, int>>& dimensions) {

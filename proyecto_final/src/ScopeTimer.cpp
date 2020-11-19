@@ -6,12 +6,14 @@
 
 namespace ScopeTimer {
 
-ScopeTimer::ScopeTimer(const std::string& name) : name_(name) {
+ScopeTimer::ScopeTimer(const std::string& name, const bool silent) : name_(name), silent_(silent) {
     initial_time_ = std::chrono::high_resolution_clock::now();
 }
 
 ScopeTimer::~ScopeTimer() {
-    std::cout << "The total execution time for " << name_ << " was: " << getDuration() << "s\n";
+    if (!silent_) {
+        std::cout << "The total execution time for " << name_ << " was: " << getDuration() << "s\n";
+    }
 }
 
 const double ScopeTimer::getDuration() {

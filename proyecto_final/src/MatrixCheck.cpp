@@ -53,7 +53,21 @@ bool fillMatrix(double** matrix, const int rows, const int cols,
             iss >> matrix[i][j];
         }
     }
+    (*input_files)[file_number].close();
     return true;
+}
+
+void fillMatrixZero(double** matrix, const int rows, const int cols) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            matrix[i][j] = 0;
+        }
+    }
+}
+
+void pointCorrectly(double** matrix, const std::pair<int, int>& dimension) {
+    double* ptr = reinterpret_cast<double*>(matrix + dimension.first);
+    for (int i = 0; i < dimension.first; i++) matrix[i] = (ptr + dimension.second * i);
 }
 
 }  // namespace
@@ -73,8 +87,8 @@ MatrixCase handleMatrixInput(std::vector<std::pair<int, int>>* dimensions) {
         std::cerr
             << "[ ERROR ] "
             << "The sizes are incompatible. The columns of A must be the same as the rows of B.\n"
-            << "          " << "And all sizes must be positive greater than 0."
-            << std::endl;
+            << "          "
+            << "And all sizes must be positive greater than 0." << std::endl;
         return MatrixCase::kWrongDimensions;
     }
 
@@ -94,17 +108,13 @@ MatrixCase handleMallocAndFilling(double** matrix_a, double** matrix_b, double**
         return MatrixCase::kNotEnoughMemory;
     }
 
-    double* ptr = (double*)(matrix_a + dimensions[0].first);
-    for (int i = 0; i < dimensions[0].first; i++) matrix_a[i] = (ptr + dimensions[0].second * i);
-
-    ptr = (double*)(matrix_b + dimensions[1].first);
-    for (int i = 0; i < dimensions[1].first; i++) matrix_b[i] = (ptr + dimensions[1].second * i);
-
-    ptr = (double*)(matrix_c + dimensions[2].first);
-    for (int i = 0; i < dimensions[2].first; i++) matrix_c[i] = (ptr + dimensions[2].second * i);
+    pointCorrectly(matrix_a, dimensions[0]);
+    pointCorrectly(matrix_b, dimensions[1]);
+    pointCorrectly(matrix_c, dimensions[2]);
 
     if (fillMatrix(matrix_a, dimensions[0].first, dimensions[0].second, input_files, 0) &&
         fillMatrix(matrix_b, dimensions[1].first, dimensions[1].second, input_files, 1)) {
+        fillMatrixZero(matrix_c, dimensions[2].first, dimensions[2].second);
         return MatrixCase::kOk;
     }
 
