@@ -30,6 +30,7 @@
 #include <stdlib.h>
 
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <vector>
 
@@ -56,6 +57,78 @@ void printMatrix(double** matrix, const std::pair<int, int> dimensions, const st
     }
     std::cout << "\n";
     std::cout << std::endl;
+}
+
+void printTable(const std::vector<MatrixMultiplier::MatrixMultiplier*>& multipliers,
+                const int runs) {
+    const int spacing = 30;
+
+    std::cout << "\n\n\n\n";
+
+    for (int i = 0; i < (spacing * (multipliers.size() + 1)) + multipliers.size(); ++i) {
+        std::cout << "-";
+    }
+    std::cout << "\n";
+
+    std::cout << std::left;
+    std::cout << std::fixed;
+    std::cout << std::setprecision(10);
+
+    std::cout << "|" << std::setw(spacing) << "Corrida";
+    for (int i = 0; i < multipliers.size(); ++i) {
+        std::string output_msg = multipliers[i]->getMethodName() + " with " +
+                                 std::to_string(multipliers[i]->getThreadsAmount()) + " thread(s)";
+
+        std::cout << "|" << std::setw(spacing) << output_msg;
+    }
+
+    std::cout << "\n";
+
+    for (int run = 1; run <= runs; ++run) {
+        std::cout << "|" << std::setw(spacing) << run;
+        for (int multiplier = 0; multiplier < multipliers.size(); ++multiplier) {
+            std::cout << "|" << std::setw(spacing)
+                      << multipliers[multiplier]->getRunTimes()[run - 1];
+        }
+        std::cout << "\n";
+    }
+
+    std::cout << "|" << std::setw(spacing) << "Promedio";
+
+    for (int i = 0; i < multipliers.size(); ++i) {
+        std::cout << "|" << std::setw(spacing) << multipliers[i]->getAverageRunTime();
+    }
+
+    std::cout << "\n";
+
+    std::cout << "|" << std::setw(spacing) << "% vs Serial";
+
+    const double serial_prom =
+        multipliers[0]->getAverageRunTime() + 0.000000000001;  // to avoid division by 0
+
+    double best_score = 1;
+    int best_id = 0;
+
+    for (int i = 0; i < multipliers.size(); ++i) {
+        const double current_score = multipliers[i]->getAverageRunTime() / serial_prom;
+        if (current_score < best_score) {
+            best_score = current_score;
+            best_id = i;
+        }
+        std::cout << "|" << std::setw(spacing) << current_score;
+    }
+
+    std::cout << "\n";
+
+    for (int i = 0; i < (spacing * (multipliers.size() + 1)) + multipliers.size(); ++i) {
+        std::cout << "-";
+    }
+    std::cout << "\n";
+
+    std::cout << "The recommendation is to use the " << multipliers[best_id]->getMethodName()
+              << " method\n\n";
+
+    std::cout << "Thanks for using our program :) \n";
 }
 
 int main(int argc, char** argv) {
@@ -123,10 +196,14 @@ int main(int argc, char** argv) {
     multipliers.emplace_back(new MatrixMultiplier::OMPMultiplier(16));
     multipliers.emplace_back(new MatrixMultiplier::PThreadMultiplier(16));
 
+    const int runs = 5;
+
     for (int i = 0; i < multipliers.size(); ++i) {
-        multipliers[i]->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, 5,
+        multipliers[i]->multiplyNTimes(matrix_a, matrix_b, matrix_c, dimensions, runs,
                                        output_file_path);
     }
+
+    printTable(multipliers, runs);
 
     free(matrix_a);
     free(matrix_b);
