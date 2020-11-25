@@ -228,7 +228,6 @@ int main(int argc, char **argv)
     }
 
     printTable(multipliers, runs);
-    GPUMatrix::HelloThreadIdx();
 
     free(matrix_a);
     free(matrix_b);
