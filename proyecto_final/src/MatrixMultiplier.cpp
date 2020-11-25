@@ -8,7 +8,7 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <cstdlib>
+#include <math.h>
 
 namespace MatrixMultiplier {
 
@@ -79,7 +79,7 @@ bool MatrixMultiplier::compareToOutputFile(double** matrix, const std::pair<int,
             std::istringstream iss(line);
             iss >> current_value;
 
-            if (std::abs(matrix[row][col] - current_value) > acceptable_difference) {
+            if (std::fabs(matrix[row][col] - current_value) > acceptable_difference) {
                 std::cout << "Wrong value " << matrix[row][col] << " " << current_value
                           << std::endl;
                 return false;
