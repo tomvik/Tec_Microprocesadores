@@ -16,7 +16,7 @@ include_directories(include)
 add_executable(main ${cpu_source_files})
 
 find_package(CUDA)
-cuda_add_executable( main_gpu preProc.cpp ${cu} )
+CUDA_ADD_LIBRARY(main_gpu ${gpu_source_files})
 
 find_package(OpenMP)
 
