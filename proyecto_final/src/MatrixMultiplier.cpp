@@ -79,7 +79,7 @@ bool MatrixMultiplier::compareToOutputFile(double** matrix, const std::pair<int,
             std::istringstream iss(line);
             iss >> current_value;
 
-            if (std::fabs(matrix[row][col] - current_value) > acceptable_difference) {
+            if (fabs(matrix[row][col] - current_value) > acceptable_difference) {
                 std::cout << "Wrong value " << matrix[row][col] << " " << current_value
                           << std::endl;
                 return false;
