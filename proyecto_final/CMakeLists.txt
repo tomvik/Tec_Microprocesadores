@@ -25,7 +25,7 @@ target_link_libraries(main #main_gpu
 
 
 
-#message(STATUS "USE_CUDA: ${USE_CUDA}")
-#if(USE_CUDA)
-#    add_definitions(-DUSE_CUDA)
-#endif()
+message(STATUS "USE_CUDA: ${USE_CUDA}")
+if(USE_CUDA)
+    add_definitions(-DUSE_CUDA)
+endif()

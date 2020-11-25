@@ -17,7 +17,7 @@
 // https://stackoverflow.com/questions/35869564/cmake-on-windows
 
 #include <ArgumentsCheck/ArgumentsCheck.h>
-//#include <GPUMatrix/GPUMatrix.h>
+#include <GPUMatrix/GPUMatrix.h>
 #include <MatrixCheck/MatrixCheck.h>
 #include <MatrixMultiplier/MatrixMultiplier.h>
 #include <MatrixMultiplier/OMPMultiplier.h>
