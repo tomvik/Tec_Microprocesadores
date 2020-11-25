@@ -3,7 +3,7 @@ message(STATUS "CMake version: ${CMAKE_VERSION}")
 
 project(main)
 
-#option(USE_CUDA "Use CUDA" ON)
+option(USE_CUDA "Use CUDA" ON)
 
 file(GLOB cpu_source_files "${CMAKE_SOURCE_DIR}/src/*.cpp")
 file(GLOB gpu_source_files "${CMAKE_SOURCE_DIR}/src/*.cu")
