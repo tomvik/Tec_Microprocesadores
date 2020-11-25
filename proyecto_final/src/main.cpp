@@ -1,4 +1,5 @@
 // Code made by Tomas Alejandro Lugo Salinas
+//          and Ernesto Cervante Juárez
 // for the Final project of the lecture of Multiprocessors.
 // Compiled with Cmake in Windows as follows:
 //   cd Hw6
@@ -23,6 +24,7 @@
 #include <MatrixMultiplier/OMPMultiplier.h>
 #include <MatrixMultiplier/PThreadMultiplier.h>
 #include <MatrixMultiplier/SingleThreadMultiplier.h>
+#include <MatrixMultiplier/CUDAMultiplier.h>
 #include <ScopeTimer/ScopeTimer.h>
 #include <omp.h>
 #include <stdint.h>
@@ -196,6 +198,7 @@ int main(int argc, char** argv) {
     multipliers.emplace_back(new MatrixMultiplier::OMPMultiplier(16));
     multipliers.emplace_back(new MatrixMultiplier::PThreadMultiplier(16));
     multipliers.emplace_back(new MatrixMultiplier::PThreadMultiplier(8));
+    multipliers.emplace_back(new MatrixMultiplier::CUDAMultiplier(1024));
 
     const int runs = 5;
 
