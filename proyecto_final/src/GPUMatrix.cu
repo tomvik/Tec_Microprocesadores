@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 namespace {
-    __global__ void mul(double* A, double* B, double* A, int m, int n, int* colA) {
+    __global__ void mul(double* A, double* B, double* C, int m, int n, int* colA) {
         // printf("Hello World from GPU! %d %d\n", blockIdx.x, threadIdx.x);
         int row = blockIdx.y * blockDim.y + threadIdx.y;
         int col = blockIdx.x * blockDim.x + threadIdx.x;
@@ -19,7 +19,7 @@ namespace {
 
 namespace GPUMatrix {
     
-void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, const std::vector<std::pair<int, int>> &dimensionss) {
+void CUDAMultiplier::CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, const std::vector<std::pair<int, int>> &dimensions) {
     const int64_t len_a = sizeof(double *) * dimensions[0].first +
                             sizeof(double) * dimensions[0].second * dimensions[0].first;
     const int64_t len_b = sizeof(double *) * dimensions[1].first +
