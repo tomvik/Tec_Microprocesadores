@@ -49,7 +49,7 @@ void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, con
     cudaDeviceSynchronize();
 
     cudaMemcpy(matrix_c_device, matrix_c, len_c, cudaMemcpyDeviceToHost);
-
+    printf("XXXXX%f\n", matrix_c[1][1])
     cudaFree(matrix_a_device);
     cudaFree(matrix_b_device);
     cudaFree(matrix_c_device);
