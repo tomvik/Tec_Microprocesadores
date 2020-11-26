@@ -3,17 +3,17 @@
 #include <vector>
 #include <utility> 
 namespace {
-    __global__ void mul(double* A, double* B, double* C, int m, int n, int colA) {
+    __global__ void mul(double* matrix_a, double* matrix_b, double* matrix_c, int m, int n, int colA) {
         // printf("Hello World from GPU! %d %d\n", blockIdx.x, threadIdx.x);
+        double suma = 0.0;
         int row = blockIdx.y * blockDim.y + threadIdx.y;
         int col = blockIdx.x * blockDim.x + threadIdx.x;
 
-        double sum = 0.0;
         if((row < m) && (col < n)) {
             for(int i = 0; i < colA; i++) {
-                sum += A[colA * row + i] * B[col + i * n];
+                suma += matrix_a[colA * row + i]  + matrix_b[col + i * n];
             }
-            C[row * n + col] = sum;
+            matrix_c[row * n + col] = suma;
         }
     }
 }
@@ -47,11 +47,12 @@ void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, con
     
     mul<<<dimGrid, dimBlock>>>(matrix_a_device, matrix_b_device, matrix_c_device, dimensions[0].first, dimensions[1].first, dimensions[1].second); 
     cudaDeviceSynchronize();
+
     cudaMemcpy(matrix_c_device, matrix_c, len_c, cudaMemcpyDeviceToHost);
+
     cudaFree(matrix_a_device);
     cudaFree(matrix_b_device);
     cudaFree(matrix_c_device);
-    printf("INfO\n%f\n%f\n\n\n\n\n\n", matrix_c[0][0],matrix_c[1][1] );
     }
 
 }  // namespace GPUMatrix
