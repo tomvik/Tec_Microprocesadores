@@ -20,7 +20,7 @@ namespace {
 
 namespace GPUMatrix {
     
-void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, const std::vector<std::pair<int, int>> &dimensions) {
+void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, const std::vector<std::pair<int, int> > &dimensions) {
     const int64_t len_a = sizeof(double *) * dimensions[0].first +
                             sizeof(double) * dimensions[0].second * dimensions[0].first;
     const int64_t len_b = sizeof(double *) * dimensions[1].first +
@@ -29,6 +29,7 @@ void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, con
                           sizeof(double) * dimensions[2].second * dimensions[2].first;
     double* matrix_a_device;
     double* matrix_b_device;
+    double* matrix_c_device;
 
 
     cudaMalloc((void**)& matrix_a_device, len_a);
@@ -38,7 +39,7 @@ void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, con
     cudaMemcpy(matrix_a_device, matrix_a, len_a, cudaMemcpyHostToDevice);
     cudaMemcpy(matrix_b_device, matrix_b, len_b, cudaMemcpyHostToDevice);
     
-    cudaMemset(matrix_c_device, len_c);
+    cudaMemset(matrix_c_device, 0, len_c);
     
     dim3 dimBlock(1,1);
     dim3 dimGrid(dimensions[1].second, dimensions[1].first);
