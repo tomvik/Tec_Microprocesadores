@@ -28,8 +28,7 @@ void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, con
     const int64_t len_c = sizeof(double *) * dimensions[2].first +
                           sizeof(double) * dimensions[2].second * dimensions[2].first;
 
-                          printf(len_a);
-    printf("INfO\n\n\n\n\n\n\n\n");
+    printf("INfO\n%d\n\n\n\n\n\n\n", len_a);
     double* matrix_a_device;
     double* matrix_b_device;
     double* matrix_c_device;
