@@ -5,8 +5,7 @@
 namespace GPUMatrix
 {
 
-    void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c,
-                        const std::vector<std::pair<int, int>> &dimensions);
+    void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, const std::vector<std::pair<int, int>> &dimensions);
 
 } // namespace GPUMatrix
 
