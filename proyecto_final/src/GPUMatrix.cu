@@ -11,7 +11,7 @@ namespace {
 
         if((row < m) && (col < n)) {
             for(int i = 0; i < colA; i++) {
-                suma += matrix_a[colA * row + i]  + matrix_b[col + i * n];
+                suma += matrix_a[colA * row + i] * matrix_b[col + i * n];
             }
             matrix_c[row * n + col] = suma;
         }
