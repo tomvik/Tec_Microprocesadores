@@ -11,7 +11,7 @@ namespace {
         double sum = 0.0;
         if((row < m) && (col < n)) {
             for(int i = 0; i < colA; i++) {
-                sum += A[colA * row + i] + B[col + i * n];
+                sum += A[colA * row + i] * B[col + i * n];
             }
             C[row * n + col] = sum;
         }
@@ -27,6 +27,9 @@ void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, con
                           sizeof(double) * dimensions[1].second * dimensions[1].first;
     const int64_t len_c = sizeof(double *) * dimensions[2].first +
                           sizeof(double) * dimensions[2].second * dimensions[2].first;
+
+    printF("INFO")
+    printF(len_a)
     double* matrix_a_device;
     double* matrix_b_device;
     double* matrix_c_device;

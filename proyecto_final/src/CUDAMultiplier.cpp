@@ -9,8 +9,8 @@
 namespace MatrixMultiplier
 {
 
-    CUDAMultiplier::CUDAMultiplier(const int amount_of_threads)
-        : MatrixMultiplier("CUDA", amount_of_threads) {}
+    CUDAMultiplier::CUDAMultiplier()
+        : MatrixMultiplier("CUDA", 1024) {}
 
     void CUDAMultiplier::multiply(double **matrix_a, double **matrix_b, double **matrix_c,
                                   const std::vector<std::pair<int, int>> &dimensions)

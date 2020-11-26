@@ -15,7 +15,7 @@ namespace MatrixMultiplier
     {
     public:
         // Creates a CUDAMultiplier.
-        explicit CUDAMultiplier(const int amount_of_threads);
+        explicit CUDAMultiplier();
 
         // Destructor of the CUDAMultiplier.
         ~CUDAMultiplier();
