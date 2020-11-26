@@ -2,9 +2,7 @@
 #include <stdio.h>
 
 namespace {
-    __global__
-    // void mul() {
-    void mul(double* A, double* B, double* A, int m, int n, int* colA) {
+    __global__ void mul(double* A, double* B, double* A, int m, int n, int* colA) {
         // printf("Hello World from GPU! %d %d\n", blockIdx.x, threadIdx.x);
         int row = blockIdx.y * blockDim.y + threadIdx.y;
         int col = blockIdx.x * blockDim.x + threadIdx.x;
