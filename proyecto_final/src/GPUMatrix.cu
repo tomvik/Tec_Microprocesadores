@@ -48,7 +48,7 @@ void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, con
     
     mul<<<dimGrid, dimBlock>>>(matrix_a_device, matrix_b_device, matrix_c_device, dimensions[0].first, dimensions[1].first, dimensions[1].second); 
     cudaMemcpy(matrix_c_device, matrix_c, len_c, cudaMemcpyDeviceToHost);
-    printf("INfO\n%f\n%f\n\n\n\n\n\n", matrix_c_device[0],matrix_c_device[1] );
+    printf("INfO\n%f\n%f\n\n\n\n\n\n", matrix_c[0],matrix_c[1] );
     }
 
 }  // namespace GPUMatrix
