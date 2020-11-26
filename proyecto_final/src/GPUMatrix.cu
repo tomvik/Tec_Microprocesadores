@@ -11,7 +11,7 @@ namespace {
         double sum = 0.0;
         if((row < m) && (col < n)) {
             for(int i = 0; i < colA; i++) {
-                sum += A[colA * row + i] * B[col + i * n];
+                sum += A[colA * row + i] + B[col + i * n];
             }
             C[row * n + col] = sum;
         }
