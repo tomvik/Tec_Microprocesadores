@@ -45,9 +45,12 @@ void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, con
     dim3 dimBlock(1,1);
     dim3 dimGrid(dimensions[1].second, dimensions[1].first);
     
-    
     mul<<<dimGrid, dimBlock>>>(matrix_a_device, matrix_b_device, matrix_c_device, dimensions[0].first, dimensions[1].first, dimensions[1].second); 
+    cudaDeviceSynchronize();
     cudaMemcpy(matrix_c_device, matrix_c, len_c, cudaMemcpyDeviceToHost);
+    cudaFree(matrix_a_device);
+    cudaFree(matrix_b_device);
+    cudaFree(matrix_c_device);
     printf("INfO\n%f\n%f\n\n\n\n\n\n", matrix_c[0],matrix_c[1] );
     }
 
