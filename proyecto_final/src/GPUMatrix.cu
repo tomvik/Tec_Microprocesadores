@@ -51,7 +51,7 @@ void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, con
     cudaFree(matrix_a_device);
     cudaFree(matrix_b_device);
     cudaFree(matrix_c_device);
-    printf("INfO\n%f\n%f\n\n\n\n\n\n", matrix_a[0][0],matrix_b[1][1] );
+    printf("INfO\n%f\n%f\n\n\n\n\n\n", matrix_c[0][0],matrix_c[1][1] );
     }
 
 }  // namespace GPUMatrix
