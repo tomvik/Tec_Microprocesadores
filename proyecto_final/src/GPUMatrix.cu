@@ -19,7 +19,7 @@ namespace {
 
 namespace GPUMatrix {
     
-void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, const std::vector<std::pair<int, int>> &dimensions) {
+void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, const std::vector<std::pair<int, int>> &dimensionss) {
     const int64_t len_a = sizeof(double *) * dimensions[0].first +
                             sizeof(double) * dimensions[0].second * dimensions[0].first;
     const int64_t len_b = sizeof(double *) * dimensions[1].first +
