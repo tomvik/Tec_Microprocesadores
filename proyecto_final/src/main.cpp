@@ -3,14 +3,14 @@
 // for the Final project of the lecture of Multiprocessors.
 //
 // Compiled with Cmake in Windows as follows:
-//   cd Hw6
+//   cd proyecto_final
 //   mkdir build && cd build
 //   cmake .. G"MinGW Makefiles"
 //   cmake --build .
-//
 // Executed as: .\Debug\main.exe "Path_to_MatrixA.txt" "Path_to_MatrixB.txt"
+//
 // And in Linux as follows:
-//   cd Hw6
+//   cd proyecto_final
 //   mkdir build && cd build
 //   cmake ..
 //   cmake --build .
