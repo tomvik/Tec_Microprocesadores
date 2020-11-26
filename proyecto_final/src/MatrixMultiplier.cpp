@@ -104,6 +104,8 @@ void MatrixMultiplier::multiplyNTimes(double** matrix_a, double** matrix_b, doub
                   << run_times_[run_times_.size() - 1] << " seconds.\n";
 
         if (!output_file_has_been_opened) {
+            if (getMethodName() == "CUDA")
+                std::cout << matrix_c[0][0] << "\n";
             writeToOutputFile(matrix_c, dimensions[2], file_path);
             output_file_has_been_opened = true;
         } else {
