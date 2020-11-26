@@ -3,15 +3,15 @@
 #include <vector>
 #include <utility> 
 namespace {
-    __global__ void mul(double* matrix_a, double* matrix_b, double* matrix_c, int m, int n, int colA) {
+    __global__ void mul(double* matrix_a, double* matrix_b, double* matrix_c, int m, int n, int cols) {
         // printf("Hello World from GPU! %d %d\n", blockIdx.x, threadIdx.x);
         double suma = 0.0;
         int row = blockIdx.y * blockDim.y + threadIdx.y;
         int col = blockIdx.x * blockDim.x + threadIdx.x;
 
         if((row < m) && (col < n)) {
-            for(int i = 0; i < colA; i++) {
-                suma += matrix_a[colA * row + i] + 3 * matrix_b[col + i * n];
+            for(int i = 0; i < cols; i++) {
+                suma += matrix_a[cols * row + i] * matrix_b[col + i * n];
             }
             matrix_c[row * n + col] = suma;
         }
