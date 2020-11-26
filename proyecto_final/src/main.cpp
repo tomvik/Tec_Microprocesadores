@@ -215,10 +215,10 @@ int main(int argc, char **argv)
 
     std::vector<MatrixMultiplier::MatrixMultiplier *> multipliers;
 
+    multipliers.emplace_back(new MatrixMultiplier::CUDAMultiplier(1024));
     multipliers.emplace_back(new MatrixMultiplier::SingleThreadMultiplier());
     multipliers.emplace_back(new MatrixMultiplier::OMPMultiplier(16));
     multipliers.emplace_back(new MatrixMultiplier::PThreadMultiplier(16));
-    multipliers.emplace_back(new MatrixMultiplier::CUDAMultiplier(1024));
 
     const int runs = 5;
 
