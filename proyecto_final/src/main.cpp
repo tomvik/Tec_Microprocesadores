@@ -150,6 +150,8 @@ void printTable(const std::vector<MatrixMultiplier::MatrixMultiplier *> &multipl
 
 int main(int argc, char **argv)
 {
+    GPUMatrix::HelloThreadIdx();
+
     const ScopeTimer::ScopeTimer timer("Main function");
 
     std::vector<std::ifstream> input_files(2);
@@ -227,7 +229,6 @@ int main(int argc, char **argv)
     }
 
     printTable(multipliers, runs);
-    GPUMatrix::HelloThreadIdx();
 
     free(matrix_a);
     free(matrix_b);
