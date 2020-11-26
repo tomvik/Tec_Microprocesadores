@@ -45,10 +45,10 @@ void CUDAMultiplier(double **matrix_a, double **matrix_b, double **matrix_c, con
     dim3 dimBlock(1,1);
     dim3 dimGrid(dimensions[1].second, dimensions[1].first);
     
-    printf("YYYY%f\n", matrix_c[1][1]);
     mul<<<dimGrid, dimBlock>>>(matrix_a_device, matrix_b_device, matrix_c_device, dimensions[0].first, dimensions[1].first, dimensions[1].second); 
     cudaDeviceSynchronize();
-
+    
+    printf("YYYY%f   %d\n", matrix_c[1][1], len_c);
     cudaMemcpy(matrix_c, matrix_c_device, len_c, cudaMemcpyDeviceToHost);
     printf("XXXXX%f\n", matrix_c[1][1]);
     cudaFree(matrix_a_device);
