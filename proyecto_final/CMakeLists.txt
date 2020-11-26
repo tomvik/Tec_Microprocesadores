@@ -22,7 +22,7 @@ find_package(OpenMP)
 
 find_package( Threads REQUIRED )
 
-target_link_libraries(main #main_gpu
+target_link_libraries(main main_gpu
                            OpenMP::OpenMP_CXX
                            ${CMAKE_THREAD_LIBS_INIT} )
 

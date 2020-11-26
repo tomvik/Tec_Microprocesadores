@@ -1,24 +1,26 @@
 // Code made by Tomas Alejandro Lugo Salinas
 //          and Ernesto Cervante Juárez
 // for the Final project of the lecture of Multiprocessors.
+//
 // Compiled with Cmake in Windows as follows:
 //   cd Hw6
 //   mkdir build && cd build
 //   cmake .. G"MinGW Makefiles"
 //   cmake --build .
+//
 // Executed as: .\Debug\main.exe "Path_to_MatrixA.txt" "Path_to_MatrixB.txt"
-// TODO(Tomas): check linux
 // And in Linux as follows:
 //   cd Hw6
 //   mkdir build && cd build
 //   cmake ..
 //   cmake --build .
 // Executed as: ./main "Path_to_MatrixA.txt" "Path_to_MatrixB.txt"
+// e.g.         ./main ./../matrixA2500.txt ./../matrixB2500.txt
+//
 // NOTE: If compilation fails, this link was extremely useful to verify the compiler:
 // https://stackoverflow.com/questions/35869564/cmake-on-windows
 
 #include <ArgumentsCheck/ArgumentsCheck.h>
-#include <GPUMatrix/GPUMatrix.h>
 #include <MatrixCheck/MatrixCheck.h>
 #include <MatrixMultiplier/MatrixMultiplier.h>
 #include <MatrixMultiplier/OMPMultiplier.h>
@@ -150,8 +152,6 @@ void printTable(const std::vector<MatrixMultiplier::MatrixMultiplier *> &multipl
 
 int main(int argc, char **argv)
 {
-    GPUMatrix::HelloThreadIdx();
-
     const ScopeTimer::ScopeTimer timer("Main function");
 
     std::vector<std::ifstream> input_files(2);
